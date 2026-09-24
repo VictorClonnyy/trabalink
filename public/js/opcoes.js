@@ -1,0 +1,157 @@
+/* Option Sets (iguais aos do Bubble e do servidor) */
+const OPTION_SETS = {
+  "categoria": [
+    {
+      "id": "eletrica",
+      "nome": "Elétrica",
+      "descricao": "Instalações e reparos elétricos"
+    },
+    {
+      "id": "manutencao",
+      "nome": "Manutenção",
+      "descricao": "Pequenos reparos residenciais"
+    },
+    {
+      "id": "pintura",
+      "nome": "Pintura",
+      "descricao": "Pintura residencial e comercial"
+    },
+    {
+      "id": "design_interiores",
+      "nome": "Design de interiores",
+      "descricao": "Projetos de ambientes"
+    },
+    {
+      "id": "fotografia",
+      "nome": "Fotografia",
+      "descricao": "Fotos de eventos e produtos"
+    },
+    {
+      "id": "limpeza",
+      "nome": "Limpeza",
+      "descricao": "Limpeza residencial e pós-obra"
+    }
+  ],
+  "papel_usuario": [
+    {
+      "id": "profissional",
+      "nome": "Profissional"
+    },
+    {
+      "id": "contratante",
+      "nome": "Contratante"
+    }
+  ],
+  "status_demanda": [
+    {
+      "id": "aberta",
+      "nome": "Aberta"
+    },
+    {
+      "id": "contratada",
+      "nome": "Contratada"
+    },
+    {
+      "id": "cancelada",
+      "nome": "Cancelada"
+    }
+  ],
+  "status_proposta": [
+    {
+      "id": "enviada",
+      "nome": "Enviada"
+    },
+    {
+      "id": "visualizada",
+      "nome": "Visualizada"
+    },
+    {
+      "id": "aceita",
+      "nome": "Aceita"
+    },
+    {
+      "id": "recusada",
+      "nome": "Recusada"
+    },
+    {
+      "id": "cancelada",
+      "nome": "Cancelada"
+    }
+  ],
+  "status_contratacao": [
+    {
+      "id": "aguardando_inicio",
+      "nome": "Aguardando início"
+    },
+    {
+      "id": "em_andamento",
+      "nome": "Em andamento"
+    },
+    {
+      "id": "entregue",
+      "nome": "Entregue"
+    },
+    {
+      "id": "concluida",
+      "nome": "Concluída"
+    },
+    {
+      "id": "cancelada",
+      "nome": "Cancelada"
+    }
+  ],
+  "tipo_notificacao": [
+    {
+      "id": "proposta",
+      "nome": "Proposta"
+    },
+    {
+      "id": "mensagem",
+      "nome": "Mensagem"
+    },
+    {
+      "id": "mudanca_status",
+      "nome": "Mudança de status"
+    },
+    {
+      "id": "avaliacao",
+      "nome": "Avaliação"
+    }
+  ],
+  "disponibilidade": [
+    {
+      "id": "seg_sex",
+      "nome": "Segunda a sexta"
+    },
+    {
+      "id": "seg_sab",
+      "nome": "Segunda a sábado"
+    },
+    {
+      "id": "fins_semana",
+      "nome": "Fins de semana"
+    },
+    {
+      "id": "todos_dias",
+      "nome": "Todos os dias"
+    }
+  ],
+  "area_atendimento": [
+    {
+      "id": "10km",
+      "nome": "Até 10 km"
+    },
+    {
+      "id": "25km",
+      "nome": "Até 25 km"
+    },
+    {
+      "id": "50km",
+      "nome": "Até 50 km"
+    },
+    {
+      "id": "remoto",
+      "nome": "Remoto"
+    }
+  ]
+};

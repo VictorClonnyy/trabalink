@@ -1,680 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Trabalink</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root { color-scheme: light; }
-/* =========================================================
-   Trabalink — front-end de referência para o Bubble.io
-   Os tokens abaixo são os mesmos cadastrados em
-   Bubble › Styles (ver GUIA-BUBBLE.md, seção 2).
-   ========================================================= */
-:root {
-  --primaria: #17697a;        /* botões, links, destaque */
-  --primaria-escura: #124b5a; /* hover, painel de boas-vindas */
-  --primaria-clara: #e6f2f4;  /* fundos de chip e item ativo */
-  --acento: #f2a263;          /* marcadores e status "visualizada" */
-  --fundo: #f3f7f9;           /* fundo das páginas */
-  --superficie: #ffffff;      /* cartões */
-  --superficie-2: #f8fafb;    /* cartão dentro de cartão */
-  --texto: #1b2b38;
-  --texto-suave: #5f707c;
-  --borda: #d6e0e6;
-  --sucesso: #2e7d4f;
-  --sucesso-claro: #e5f3ea;
-  --aviso: #a8660f;
-  --aviso-claro: #fdf1e3;
-  --erro: #b3261e;
-  --erro-claro: #fbe9e7;
-  --raio: 12px;
-  --raio-sm: 8px;
-  --sombra: 0 1px 2px rgba(27, 43, 56, .06), 0 2px 8px rgba(27, 43, 56, .04);
-  --fonte: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --max: 1200px;
-}
-
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  font-family: var(--fonte);
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--texto);
-  background: var(--fundo);
-}
-img { max-width: 100%; display: block; }
-a { color: var(--primaria); text-decoration: none; }
-a:hover { text-decoration: underline; }
-h1, h2, h3, h4 { margin: 0; line-height: 1.25; }
-h1 { font-size: 30px; font-weight: 700; letter-spacing: -.01em; }
-h2 { font-size: 20px; font-weight: 700; }
-h3 { font-size: 16px; font-weight: 700; }
-p { margin: 0; }
-button, input, select, textarea { font: inherit; color: inherit; }
-:focus-visible { outline: 3px solid color-mix(in srgb, var(--primaria) 45%, transparent); outline-offset: 2px; }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-/* ---------- Header (Reusable element "Header") ---------- */
-.header {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
-  background: var(--superficie);
-  border-bottom: 1px solid var(--borda);
-}
-.header-in {
-  position: relative; max-width: var(--max); margin: 0 auto; padding: 0 20px;
-  height: 68px; display: flex; align-items: center; gap: 28px;
-}
-.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; color: var(--primaria-escura); }
-.logo:hover { text-decoration: none; }
-.logo-mark { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, var(--primaria), var(--primaria-escura)); display: grid; place-items: center; color: #fff; font-size: 16px; }
-.nav { display: flex; gap: 4px; flex: 1; }
-.nav a {
-  position: relative; padding: 22px 12px; color: var(--texto-suave); font-weight: 500; white-space: nowrap;
-}
-.nav a:hover { color: var(--primaria); text-decoration: none; }
-.nav a.ativo { color: var(--primaria); }
-.nav a.ativo::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--primaria); }
-.header-acoes { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-.usuario-chip { display: flex; align-items: center; gap: 10px; padding: 4px 8px 4px 4px; border-radius: 999px; background: none; border: 0; cursor: pointer; }
-.usuario-chip:hover { background: var(--fundo); }
-.usuario-chip .nome { font-weight: 600; font-size: 14px; line-height: 1.2; text-align: left; }
-.usuario-chip .papel { font-size: 12px; color: var(--texto-suave); display: block; font-weight: 400; }
-.icone-btn { position: relative; width: 40px; height: 40px; border-radius: 50%; border: 0; background: none; cursor: pointer; display: grid; place-items: center; color: var(--texto-suave); }
-.icone-btn:hover { background: var(--fundo); color: var(--primaria); }
-.badge { position: absolute; top: 4px; right: 4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--erro); color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; }
-.menu-mobile { display: none; }
-
-/* ---------- Dropdowns (notificações e conta) ---------- */
-.dropdown {
-  position: absolute; top: 60px; right: 20px; width: 360px; max-width: calc(100vw - 32px);
-  background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio);
-  box-shadow: 0 12px 32px rgba(27, 43, 56, .14); z-index: 40; overflow: hidden;
-}
-.dropdown-topo { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--borda); }
-.dropdown-lista { max-height: 380px; overflow-y: auto; }
-.notif { display: flex; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--borda); cursor: pointer; background: none; border-left: 0; border-right: 0; border-top: 0; width: 100%; text-align: left; }
-.notif:hover { background: var(--fundo); }
-.notif.nao-lida { background: var(--primaria-clara); }
-.notif .ponto { width: 8px; height: 8px; border-radius: 50%; background: var(--primaria); margin-top: 7px; flex: none; }
-.notif.lida .ponto { background: transparent; }
-.notif small { color: var(--texto-suave); display: block; }
-.menu-conta a, .menu-conta button { display: block; width: 100%; padding: 12px 16px; text-align: left; border: 0; background: none; cursor: pointer; color: var(--texto); }
-.menu-conta a:hover, .menu-conta button:hover { background: var(--fundo); text-decoration: none; }
-
-/* ---------- Layout ---------- */
-.pagina { max-width: var(--max); margin: 0 auto; padding: 36px 20px 64px; }
-.pagina-estreita { max-width: 980px; }
-.cabecalho-pagina { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-.cabecalho-pagina p { color: var(--texto-suave); margin-top: 6px; font-size: 16px; }
-.grid-2 { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; align-items: start; }
-.grid-lateral { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; align-items: start; }
-.grid-lateral-dir { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
-.grid-demanda { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; align-items: start; }
-.grid-contrato { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
-.grid-metade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
-.nav .so-mobile { display: none; }
-.pilha { display: flex; flex-direction: column; gap: 16px; }
-.linha { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.entre { justify-content: space-between; }
-.cartao { background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); padding: 28px; box-shadow: var(--sombra); }
-.cartao-sm { padding: 18px 20px; }
-.cartao-interno { background: var(--superficie-2); border: 1px solid var(--borda); border-radius: var(--raio); padding: 18px 20px; }
-.cartao-titulo { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
-.suave { color: var(--texto-suave); }
-.pequeno { font-size: 13px; }
-.destaque { color: var(--primaria); font-weight: 600; }
-.forte { font-weight: 700; }
-.divisor { height: 1px; background: var(--borda); margin: 20px 0; border: 0; }
-
-/* ---------- Botões ---------- */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 44px; padding: 0 20px; border-radius: var(--raio-sm);
-  font-weight: 600; font-size: 15px; cursor: pointer; border: 1.5px solid transparent;
-  transition: background .15s, border-color .15s, color .15s; white-space: nowrap;
-}
-.btn:hover { text-decoration: none; }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
-.btn-primario { background: var(--primaria); color: #fff; }
-.btn-primario:hover:not(:disabled) { background: var(--primaria-escura); }
-.btn-contorno { background: var(--superficie); color: var(--primaria); border-color: var(--primaria); }
-.btn-contorno:hover:not(:disabled) { background: var(--primaria-clara); }
-.btn-suave { background: var(--primaria-clara); color: var(--primaria); }
-.btn-suave:hover:not(:disabled) { background: #d4e8ec; }
-.btn-perigo { background: var(--superficie); color: var(--erro); border-color: #e6b8b4; }
-.btn-perigo:hover:not(:disabled) { background: var(--erro-claro); }
-.btn-texto { background: none; color: var(--primaria); padding: 0 6px; min-height: 32px; }
-.btn-texto:hover { text-decoration: underline; }
-.btn-sm { min-height: 36px; padding: 0 14px; font-size: 14px; }
-.btn-bloco { width: 100%; }
-
-/* ---------- Formulários ---------- */
-.campo { display: flex; flex-direction: column; gap: 6px; }
-.campo label, .rotulo { font-size: 14px; font-weight: 500; }
-.input, .select, .textarea {
-  width: 100%; min-height: 46px; padding: 10px 14px; border: 1px solid var(--borda); border-radius: var(--raio-sm);
-  background: var(--superficie); transition: border-color .15s, box-shadow .15s;
-}
-.textarea { min-height: 110px; resize: vertical; }
-.input::placeholder, .textarea::placeholder { color: #8a99a4; }
-.input:focus, .select:focus, .textarea:focus { outline: 0; border-color: var(--primaria); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primaria) 18%, transparent); }
-.select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235f707c' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
-.campo .ajuda { font-size: 13px; color: var(--texto-suave); }
-.campo .erro-msg { font-size: 13px; color: var(--erro); display: none; }
-.campo.invalido .input, .campo.invalido .select, .campo.invalido .textarea { border-color: var(--erro); }
-.campo.invalido .erro-msg { display: block; }
-.form-grid { display: grid; gap: 20px; }
-.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.cols-2-1 { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
-.span-2 { grid-column: span 2; }
-.span-all { grid-column: 1 / -1; }
-.check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; cursor: pointer; }
-.check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--primaria); }
-.opcoes-papel { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.opcao-papel { position: relative; display: block; cursor: pointer; }
-.opcao-papel input { position: absolute; opacity: 0; }
-.opcao-papel span { display: block; padding: 14px 16px; border: 1.5px solid var(--borda); border-radius: var(--raio-sm); }
-.opcao-papel span strong { display: block; }
-.opcao-papel span small { color: var(--texto-suave); }
-.opcao-papel input:checked + span { border-color: var(--primaria); background: var(--primaria-clara); }
-.opcao-papel input:focus-visible + span { outline: 3px solid color-mix(in srgb, var(--primaria) 45%, transparent); }
-.arquivo { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1.5px dashed var(--borda); border-radius: var(--raio-sm); color: var(--texto-suave); font-size: 14px; }
-.arquivo input { font-size: 13px; }
-
-/* ---------- Avatar, chips e status ---------- */
-.avatar {
-  flex: none; width: 56px; height: 56px; border-radius: 50%;
-  border: 2px solid var(--primaria); background: var(--primaria-clara); color: var(--primaria);
-  display: grid; place-items: center; font-weight: 700; font-size: 18px; overflow: hidden;
-}
-.avatar img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-lg { width: 120px; height: 120px; font-size: 32px; }
-.avatar-sm { width: 38px; height: 38px; font-size: 14px; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--primaria-clara); color: var(--primaria-escura); font-size: 13px; font-weight: 500; }
-.chip button { border: 0; background: none; cursor: pointer; color: inherit; padding: 0; font-size: 16px; line-height: 1; }
-.status { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
-.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.st-neutro { background: #eef2f5; color: var(--texto-suave); }
-.st-info { background: var(--primaria-clara); color: var(--primaria); }
-.st-aviso { background: var(--aviso-claro); color: var(--aviso); }
-.st-ok { background: var(--sucesso-claro); color: var(--sucesso); }
-.st-erro { background: var(--erro-claro); color: var(--erro); }
-.estrelas { color: #e0a43a; letter-spacing: 1px; }
-.nota { color: var(--primaria); font-weight: 700; }
-
-/* ---------- WF-01 Busca ---------- */
-.busca-hero h1 { font-size: 34px; margin-bottom: 18px; }
-.busca-barra { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) 180px; gap: 16px; }
-.busca-barra .input { min-height: 56px; font-size: 16px; }
-.busca-barra .btn { min-height: 56px; font-size: 16px; }
-.filtros .campo + .campo { margin-top: 14px; }
-.filtros-det summary { list-style: none; margin-bottom: 14px; }
-.filtros-det summary::-webkit-details-marker { display: none; }
-@media (min-width: 901px) { .filtros-det summary { pointer-events: none; } }
-@media (max-width: 900px) {
-  .filtros-det summary { cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); }
-  .filtros-det summary::after { content: "▾"; color: var(--primaria); font-size: 18px; }
-  .filtros-det[open] summary::after { content: "▴"; }
-  .filtros-det summary h2 { font-size: 16px; }
-  .so-grade { display: none; }
-}
-.resultado {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) 190px 150px; gap: 24px; align-items: center;
-  background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); padding: 22px 28px; box-shadow: var(--sombra);
-  transition: border-color .15s, box-shadow .15s;
-}
-.resultado:hover { border-color: #b7cbd3; box-shadow: 0 4px 16px rgba(27, 43, 56, .08); }
-.resultado h3 { font-size: 18px; }
-.contador { color: var(--texto-suave); font-size: 14px; font-weight: 400; margin-left: 8px; }
-
-/* ---------- WF-02 Acesso ---------- */
-.acesso { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: stretch; max-width: 1100px; margin: 0 auto; }
-.boas-vindas { background: var(--primaria-escura); color: #fff; border-radius: 20px; padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; gap: 28px; }
-.boas-vindas h1 { font-size: 36px; line-height: 1.3; }
-.boas-vindas p { color: #d7e7eb; font-size: 17px; }
-.boas-vindas ul { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 18px; }
-.boas-vindas li { display: flex; align-items: center; gap: 14px; font-size: 16px; }
-.boas-vindas li::before { content: ""; width: 20px; height: 20px; border-radius: 50%; background: var(--acento); flex: none; }
-.abas { display: flex; gap: 4px; padding: 4px; background: var(--fundo); border-radius: 10px; margin-bottom: 24px; }
-.abas button, .abas a { flex: 1; min-height: 40px; border: 0; background: none; border-radius: 8px; font-weight: 600; color: var(--texto-suave); cursor: pointer; display: grid; place-items: center; }
-.abas .ativo { background: var(--superficie); color: var(--primaria); box-shadow: var(--sombra); }
-.contas-demo { display: grid; gap: 8px; }
-.conta-demo { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--borda); border-radius: var(--raio-sm); background: var(--superficie); cursor: pointer; text-align: left; width: 100%; }
-.conta-demo:hover { border-color: var(--primaria); background: var(--primaria-clara); }
-
-/* ---------- WF-03 Perfil ---------- */
-.perfil-topo { display: flex; gap: 36px; align-items: center; }
-.perfil-topo .info { flex: 1; min-width: 0; }
-.perfil-topo h1 { font-size: 34px; }
-.perfil-topo .acoes { display: flex; flex-direction: column; gap: 12px; min-width: 230px; }
-.meta-linha { display: flex; flex-wrap: wrap; gap: 8px 14px; color: var(--primaria); font-weight: 700; margin-top: 10px; }
-.meta-linha span + span::before { content: "•"; margin-right: 14px; color: var(--primaria); }
-.info-lista { display: grid; gap: 20px; }
-.info-lista dt { font-size: 14px; color: var(--texto-suave); }
-.info-lista dd { margin: 2px 0 0; font-weight: 700; }
-.servico-item { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
-.galeria-item { border-radius: var(--raio); overflow: hidden; background: var(--primaria-clara); border: 1px solid var(--borda); }
-.galeria-item .img { aspect-ratio: 4 / 3; display: grid; place-items: center; color: var(--primaria-escura); font-weight: 500; font-size: 14px; text-align: center; padding: 10px; background: linear-gradient(135deg, #e6f2f4, #d5e9ed); }
-.galeria-item .img img { width: 100%; height: 100%; object-fit: cover; }
-.galeria-item .legenda { padding: 10px 12px; background: var(--superficie); font-size: 13px; }
-.avaliacao-item + .avaliacao-item { border-top: 1px solid var(--borda); padding-top: 16px; margin-top: 16px; }
-
-/* ---------- WF-05 / listas ---------- */
-.lista-item { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 20px; align-items: center; }
-.valor-faixa { color: var(--primaria); font-weight: 600; }
-.proposta-card .rodape { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; flex-wrap: wrap; }
-.aviso-box { padding: 14px 16px; border-radius: var(--raio-sm); background: var(--primaria-clara); color: var(--primaria-escura); font-size: 14px; }
-.aviso-box.alerta { background: var(--aviso-claro); color: var(--aviso); }
-.aviso-box.ok { background: var(--sucesso-claro); color: var(--sucesso); }
-
-/* ---------- WF-06 Contratação ---------- */
-.contrato-lista { display: grid; gap: 12px; }
-.contrato-item { display: block; padding: 16px 18px; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--superficie); color: var(--texto); }
-.contrato-item:hover { border-color: var(--primaria); text-decoration: none; }
-.contrato-item.ativo { border: 1.5px solid var(--primaria); background: var(--primaria-clara); }
-.contrato-item h3 { font-size: 15px; margin-bottom: 4px; }
-.etapas { display: grid; grid-template-columns: repeat(4, 1fr); padding: 20px 24px 16px; background: var(--superficie-2); border: 1px solid var(--borda); border-radius: var(--raio); }
-.etapa { position: relative; display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
-.etapa .bola { position: relative; z-index: 1; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--primaria); background: var(--superficie); }
-.etapa.feita .bola { background: var(--primaria); }
-.etapa.atual .bola { background: var(--primaria); box-shadow: 0 0 0 5px color-mix(in srgb, var(--primaria) 20%, transparent); }
-.etapa:not(:last-child)::after { content: ""; position: absolute; top: 11px; left: 24px; right: 0; height: 3px; background: var(--borda); }
-.etapa.feita:not(:last-child)::after { background: var(--primaria); }
-.etapa small { color: var(--texto-suave); }
-.chat { display: flex; flex-direction: column; background: var(--superficie-2); border: 1px solid var(--borda); border-radius: var(--raio); padding: 20px; min-height: 380px; }
-.chat-msgs { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: 420px; padding-right: 4px; margin-bottom: 16px; }
-.msg { max-width: 75%; padding: 10px 14px; border-radius: 12px; background: var(--superficie); border: 1px solid var(--borda); }
-.msg.minha { align-self: flex-end; background: var(--primaria-clara); border-color: transparent; }
-.msg .autor { font-size: 12px; color: var(--primaria); font-weight: 600; }
-.msg .hora { font-size: 11px; color: var(--texto-suave); margin-left: 6px; font-weight: 400; }
-.chat-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }
-.historico { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 13px; }
-.historico li { display: flex; gap: 10px; }
-.historico li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--primaria); margin-top: 6px; flex: none; }
-.seletor-nota { display: flex; gap: 4px; flex-direction: row-reverse; justify-content: flex-end; }
-.seletor-nota input { position: absolute; opacity: 0; }
-.seletor-nota label { font-size: 30px; color: #cfd8de; cursor: pointer; line-height: 1; }
-.seletor-nota input:checked ~ label, .seletor-nota label:hover, .seletor-nota label:hover ~ label { color: #e0a43a; }
-.seletor-nota input:focus-visible + label { outline: 2px solid var(--primaria); border-radius: 4px; }
-
-/* ---------- WF-07 Painel ---------- */
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-bottom: 24px; }
-.stat { background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); padding: 22px 26px; box-shadow: var(--sombra); display: block; color: var(--texto); }
-.stat:hover { text-decoration: none; border-color: #b7cbd3; }
-.stat strong { display: block; font-size: 30px; color: var(--primaria); line-height: 1.2; }
-.stat span { color: var(--texto-suave); }
-
-/* ---------- WF-08 Gestão de perfil ---------- */
-.menu-lateral { display: grid; gap: 10px; }
-.menu-lateral a { display: block; padding: 12px 16px; border: 1px solid var(--borda); border-radius: var(--raio-sm); color: var(--texto); background: var(--superficie); }
-.menu-lateral a:hover { text-decoration: none; border-color: var(--primaria); }
-.menu-lateral a.ativo { background: var(--primaria-clara); border: 1.5px solid var(--primaria); color: var(--primaria); }
-.barra { height: 14px; border-radius: 7px; background: var(--borda); overflow: hidden; }
-.barra > div { height: 100%; background: var(--primaria); border-radius: 7px; transition: width .3s; }
-.servico-gestao { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; align-items: center; }
-.interruptor { position: relative; width: 42px; height: 24px; flex: none; }
-.interruptor input { opacity: 0; width: 0; height: 0; position: absolute; }
-.interruptor span { position: absolute; inset: 0; background: #c3cfd6; border-radius: 12px; cursor: pointer; transition: background .15s; }
-.interruptor span::before { content: ""; position: absolute; left: 3px; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; }
-.interruptor input:checked + span { background: var(--primaria); }
-.interruptor input:checked + span::before { transform: translateX(18px); }
-.interruptor input:focus-visible + span { outline: 3px solid color-mix(in srgb, var(--primaria) 45%, transparent); outline-offset: 2px; }
-.galeria-gestao .galeria-item { position: relative; }
-.galeria-gestao .acoes-item { display: flex; gap: 4px; justify-content: space-between; padding: 0 6px 8px; background: var(--superficie); }
-
-/* ---------- Estados vazios, modal, toast ---------- */
-.vazio { text-align: center; padding: 40px 20px; color: var(--texto-suave); }
-.vazio .icone { font-size: 34px; margin-bottom: 8px; }
-.vazio h3 { color: var(--texto); margin-bottom: 6px; }
-.modal-fundo { position: fixed; inset: 0; background: rgba(18, 36, 46, .45); z-index: 60; display: grid; place-items: center; padding: 16px; animation: aparecer .15s; }
-.modal { width: 100%; max-width: 560px; max-height: calc(100vh - 32px); overflow-y: auto; background: var(--superficie); border-radius: 16px; padding: 28px; box-shadow: 0 24px 60px rgba(0, 0, 0, .2); }
-.modal-topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-rodape { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-.toasts { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 80; display: grid; gap: 8px; width: min(420px, calc(100vw - 32px)); pointer-events: none; }
-.toast { padding: 14px 18px; border-radius: 10px; background: var(--texto); color: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .2); font-size: 14px; animation: subir .2s; }
-.toast.ok { background: var(--sucesso); }
-.toast.erro { background: var(--erro); }
-@keyframes aparecer { from { opacity: 0; } }
-@keyframes subir { from { opacity: 0; transform: translateY(8px); } }
-.rodape-site { text-align: center; color: var(--texto-suave); font-size: 13px; padding: 24px 16px 40px; }
-.rodape-site button { font-size: 13px; }
-
-/* ---------- Modo "Estrutura Bubble" ----------
-   Mostra cada Group com o nome que ele deve ter no editor. */
-.bb-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 70; box-shadow: 0 6px 18px rgba(0, 0, 0, .15); }
-@media (max-width: 640px) { .bb-toggle { min-height: 32px; padding: 0 10px; font-size: 12px; right: 10px; bottom: 10px; } }
-body.mostrar-bb [data-bb] { outline: 1.5px dashed #c05ad6; outline-offset: -1px; position: relative; }
-body.mostrar-bb [data-bb]::before {
-  content: attr(data-bb); position: absolute; top: 0; left: 0; z-index: 5; transform: translateY(-100%);
-  background: #c05ad6; color: #fff; font: 600 10px/1.6 var(--fonte); padding: 0 6px; border-radius: 4px 4px 0 0; white-space: nowrap; pointer-events: none;
-}
-
-/* ---------- Responsivo (RNF01: 1366, 768, 360) ---------- */
-@media (max-width: 1100px) {
-  .resultado { grid-template-columns: auto minmax(0, 1fr) 150px; }
-  .resultado .acao { grid-column: 2 / -1; justify-self: start; }
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 900px) {
-  .nav, .header-acoes .so-desktop { display: none; }
-  .menu-mobile { display: grid; }
-  .nav.aberto { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: var(--superficie); border-bottom: 1px solid var(--borda); padding: 8px 12px 12px; box-shadow: 0 12px 24px rgba(27, 43, 56, .08); }
-  .nav.aberto a { padding: 12px; border-radius: 8px; }
-  .nav.aberto a.ativo { background: var(--primaria-clara); }
-  .nav.aberto a.ativo::after { display: none; }
-  .grid-2, .grid-lateral, .grid-lateral-dir, .grid-demanda, .grid-contrato, .grid-metade, .acesso { grid-template-columns: minmax(0, 1fr); }
-  .nav.aberto .so-mobile { display: block; }
-  .boas-vindas { padding: 36px 28px; }
-  .boas-vindas h1 { font-size: 28px; }
-  .busca-barra { grid-template-columns: 1fr 1fr; }
-  .busca-barra .btn { grid-column: span 2; }
-  .perfil-topo { flex-wrap: wrap; gap: 20px; }
-  .perfil-topo .acoes { flex-direction: row; min-width: 0; width: 100%; }
-  .perfil-topo .acoes .btn { flex: 1; }
-  .menu-lateral { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  /* lista de contratações vira uma faixa horizontal no topo */
-  .contrato-lista { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 4px; scroll-snap-type: x proximity; }
-  .contrato-item { flex: 0 0 200px; scroll-snap-align: start; }
-}
-@media (max-width: 640px) {
-  body { font-size: 15px; }
-  h1, .busca-hero h1, .perfil-topo h1 { font-size: 24px; }
-  .pagina { padding: 24px 16px 56px; }
-  .header-in { padding: 0 16px; gap: 12px; }
-  .usuario-chip .texto { display: none; }
-  .cartao { padding: 20px; }
-  .busca-barra, .cols-2, .cols-3, .cols-2-1, .opcoes-papel { grid-template-columns: minmax(0, 1fr); }
-  .busca-barra .btn, .span-2 { grid-column: auto; }
-  .resultado { grid-template-columns: auto minmax(0, 1fr); padding: 18px; gap: 14px 16px; }
-  .resultado .preco, .resultado .acao { grid-column: 1 / -1; }
-  .resultado .acao .btn { width: 100%; }
-  .stats { gap: 12px; }
-  .stat { padding: 16px; }
-  .stat strong { font-size: 24px; }
-  .lista-item, .servico-gestao { grid-template-columns: minmax(0, 1fr); }
-  .etapas { padding: 16px 12px 12px; }
-  .etapa { font-size: 11px; }
-  .msg { max-width: 90%; }
-  .chat-form { grid-template-columns: minmax(0, 1fr); }
-  .menu-lateral { grid-template-columns: 1fr 1fr; }
-  .avatar-lg { width: 84px; height: 84px; font-size: 24px; }
-  .perfil-topo .acoes { flex-direction: column; }
-}
-
-</style>
-
-  <a href="#app" class="sr-only">Pular para o conteúdo</a>
-  <header class="header" id="header"></header>
-  <div id="app" tabindex="-1"></div>
-  <footer class="rodape-site">
-    Trabalink · versão acadêmica de demonstração (ADS5) ·
-    <button class="btn btn-texto" data-act="restaurar">Restaurar dados de demonstração</button>
-  </footer>
-  <button class="btn btn-contorno btn-sm bb-toggle" data-act="estrutura" aria-pressed="false" title="Mostra o nome de cada Group como deve ficar no editor do Bubble">Estrutura Bubble</button>
-  <div class="toasts" id="toasts" aria-live="polite"></div>
-  <script>
-/* =========================================================
-   Trabalink — dados de teste e camada de dados
-   Os nomes das tabelas e dos campos seguem o DER da seção 5
-   (e os Data Types do Bubble). Os mesmos registros estão em
-   bubble-import/*.csv para importação em App Data.
-   ========================================================= */
-
-/* ---------- Option Sets ---------- */
-const OPTION_SETS = {
-  categoria: [
-    { id: "eletrica", nome: "Elétrica", descricao: "Instalações e reparos elétricos" },
-    { id: "manutencao", nome: "Manutenção", descricao: "Pequenos reparos residenciais" },
-    { id: "pintura", nome: "Pintura", descricao: "Pintura residencial e comercial" },
-    { id: "design_interiores", nome: "Design de interiores", descricao: "Projetos de ambientes" },
-    { id: "fotografia", nome: "Fotografia", descricao: "Fotos de eventos e produtos" },
-    { id: "limpeza", nome: "Limpeza", descricao: "Limpeza residencial e pós-obra" }
-  ],
-  papel_usuario: [
-    { id: "profissional", nome: "Profissional" },
-    { id: "contratante", nome: "Contratante" }
-  ],
-  status_demanda: [
-    { id: "aberta", nome: "Aberta" },
-    { id: "contratada", nome: "Contratada" },
-    { id: "cancelada", nome: "Cancelada" }
-  ],
-  status_proposta: [
-    { id: "enviada", nome: "Enviada" },
-    { id: "visualizada", nome: "Visualizada" },
-    { id: "aceita", nome: "Aceita" },
-    { id: "recusada", nome: "Recusada" },
-    { id: "cancelada", nome: "Cancelada" }
-  ],
-  status_contratacao: [
-    { id: "aguardando_inicio", nome: "Aguardando início" },
-    { id: "em_andamento", nome: "Em andamento" },
-    { id: "entregue", nome: "Entregue" },
-    { id: "concluida", nome: "Concluída" },
-    { id: "cancelada", nome: "Cancelada" }
-  ],
-  tipo_notificacao: [
-    { id: "proposta", nome: "Proposta" },
-    { id: "mensagem", nome: "Mensagem" },
-    { id: "mudanca_status", nome: "Mudança de status" },
-    { id: "avaliacao", nome: "Avaliação" }
-  ],
-  disponibilidade: [
-    { id: "seg_sex", nome: "Segunda a sexta" },
-    { id: "seg_sab", nome: "Segunda a sábado" },
-    { id: "fins_semana", nome: "Fins de semana" },
-    { id: "todos_dias", nome: "Todos os dias" }
-  ],
-  area_atendimento: [
-    { id: "10km", nome: "Até 10 km" },
-    { id: "25km", nome: "Até 25 km" },
-    { id: "50km", nome: "Até 50 km" },
-    { id: "remoto", nome: "Remoto" }
-  ]
-};
-
-/* ---------- Registros iniciais ---------- */
-const SEED = {
-  usuario: [
-    { id: "U01", nome: "Carla Mendes", email: "carla@trabalink.dev", senha: "demo1234", papel: "contratante", telefone: "(11) 98888-1001", foto: "", status: "ativo" },
-    { id: "U02", nome: "João Ribeiro", email: "joao@trabalink.dev", senha: "demo1234", papel: "profissional", telefone: "(11) 97777-2002", foto: "", status: "ativo" },
-    { id: "U03", nome: "Mariana Silva", email: "mariana@trabalink.dev", senha: "demo1234", papel: "profissional", telefone: "(11) 96666-3003", foto: "", status: "ativo" },
-    { id: "U04", nome: "Ana Costa", email: "ana@trabalink.dev", senha: "demo1234", papel: "profissional", telefone: "(11) 95555-4004", foto: "", status: "ativo" },
-    { id: "U05", nome: "Rafael Souza", email: "rafael@trabalink.dev", senha: "demo1234", papel: "profissional", telefone: "(11) 94444-5005", foto: "", status: "ativo" },
-    { id: "U06", nome: "Bruno Lima", email: "bruno@trabalink.dev", senha: "demo1234", papel: "contratante", telefone: "(11) 93333-6006", foto: "", status: "ativo" },
-    { id: "U07", nome: "Diego Alves", email: "diego@trabalink.dev", senha: "demo1234", papel: "profissional", telefone: "(11) 92222-7007", foto: "", status: "ativo" }
-  ],
-  perfil_profissional: [
-    { id: "P01", usuario_id: "U02", titulo: "Eletricista residencial e comercial", categoria_id: "eletrica", biografia: "Atendimento para instalações, manutenção preventiva e correções elétricas. Orçamento transparente e registro das etapas do serviço.", localizacao: "Santo André - SP", area_atendimento: "25km", disponibilidade: "seg_sab", faixa_preco: 120, media_avaliacao: 0 },
-    { id: "P02", usuario_id: "U03", titulo: "Designer de interiores", categoria_id: "design_interiores", biografia: "Projetos de ambientes residenciais com foco em funcionalidade, iluminação e orçamento enxuto.", localizacao: "São Paulo - SP", area_atendimento: "remoto", disponibilidade: "seg_sex", faixa_preco: 180, media_avaliacao: 0 },
-    { id: "P03", usuario_id: "U04", titulo: "Fotógrafa de eventos", categoria_id: "fotografia", biografia: "Cobertura de aniversários, eventos corporativos e ensaios, com entrega das fotos tratadas em até 7 dias.", localizacao: "São Bernardo - SP", area_atendimento: "50km", disponibilidade: "fins_semana", faixa_preco: 350, media_avaliacao: 0 },
-    { id: "P04", usuario_id: "U05", titulo: "Pintor residencial", categoria_id: "pintura", biografia: "Pintura interna e externa, texturas e acabamentos. Proteção completa dos móveis e limpeza ao final.", localizacao: "Mauá - SP", area_atendimento: "25km", disponibilidade: "seg_sab", faixa_preco: 400, media_avaliacao: 0 },
-    { id: "P05", usuario_id: "U07", titulo: "Eletricista e instalador", categoria_id: "eletrica", biografia: "Instalação de chuveiros, luminárias e ventiladores de teto.", localizacao: "São Caetano - SP", area_atendimento: "10km", disponibilidade: "todos_dias", faixa_preco: 90, media_avaliacao: 0 }
-  ],
-  habilidade: [
-    { id: "H01", nome: "Instalações", descricao: "Instalações elétricas" },
-    { id: "H02", nome: "Manutenção", descricao: "Manutenção preventiva e corretiva" },
-    { id: "H03", nome: "Reparos", descricao: "Reparos em geral" },
-    { id: "H04", nome: "Projeto 3D", descricao: "Modelagem e renderização de ambientes" },
-    { id: "H05", nome: "Iluminação", descricao: "Projeto e instalação de iluminação" },
-    { id: "H06", nome: "Fotografia de eventos", descricao: "Cobertura fotográfica" },
-    { id: "H07", nome: "Edição de imagens", descricao: "Tratamento de fotos" },
-    { id: "H08", nome: "Pintura residencial", descricao: "Pintura de interiores e fachadas" },
-    { id: "H09", nome: "Texturas", descricao: "Aplicação de texturas e efeitos" }
-  ],
-  profissional_habilidade: [
-    { id: "PH01", perfil_profissional_id: "P01", habilidade_id: "H01", nivel_experiencia: "avancado" },
-    { id: "PH02", perfil_profissional_id: "P01", habilidade_id: "H02", nivel_experiencia: "avancado" },
-    { id: "PH03", perfil_profissional_id: "P01", habilidade_id: "H03", nivel_experiencia: "intermediario" },
-    { id: "PH04", perfil_profissional_id: "P02", habilidade_id: "H04", nivel_experiencia: "avancado" },
-    { id: "PH05", perfil_profissional_id: "P02", habilidade_id: "H05", nivel_experiencia: "intermediario" },
-    { id: "PH06", perfil_profissional_id: "P03", habilidade_id: "H06", nivel_experiencia: "avancado" },
-    { id: "PH07", perfil_profissional_id: "P03", habilidade_id: "H07", nivel_experiencia: "avancado" },
-    { id: "PH08", perfil_profissional_id: "P04", habilidade_id: "H08", nivel_experiencia: "avancado" },
-    { id: "PH09", perfil_profissional_id: "P04", habilidade_id: "H09", nivel_experiencia: "intermediario" },
-    { id: "PH10", perfil_profissional_id: "P05", habilidade_id: "H01", nivel_experiencia: "intermediario" },
-    { id: "PH11", perfil_profissional_id: "P05", habilidade_id: "H05", nivel_experiencia: "intermediario" }
-  ],
-  portfolio: [
-    { id: "PF01", perfil_profissional_id: "P01", titulo: "Quadro elétrico", descricao: "Reorganização completa de quadro residencial.", arquivo: "", ordem: 1 },
-    { id: "PF02", perfil_profissional_id: "P01", titulo: "Instalação concluída", descricao: "Pontos de tomada em cozinha planejada.", arquivo: "", ordem: 2 },
-    { id: "PF03", perfil_profissional_id: "P01", titulo: "Iluminação", descricao: "Spots embutidos em sala de estar.", arquivo: "", ordem: 3 },
-    { id: "PF04", perfil_profissional_id: "P02", titulo: "Sala integrada", descricao: "Projeto de sala e cozinha integradas.", arquivo: "", ordem: 1 },
-    { id: "PF05", perfil_profissional_id: "P03", titulo: "Casamento no campo", descricao: "Cobertura completa de cerimônia.", arquivo: "", ordem: 1 },
-    { id: "PF06", perfil_profissional_id: "P04", titulo: "Fachada residencial", descricao: "Pintura externa com textura.", arquivo: "", ordem: 1 }
-  ],
-  servico: [
-    { id: "S01", perfil_profissional_id: "P01", categoria_id: "eletrica", titulo: "Instalação de tomadas", descricao: "Instalação e troca de tomadas e interruptores.", preco_inicial: 120, localizacao: "Santo André - SP", ativo: true },
-    { id: "S02", perfil_profissional_id: "P01", categoria_id: "eletrica", titulo: "Revisão do quadro elétrico", descricao: "Diagnóstico e reorganização do quadro.", preco_inicial: 250, localizacao: "Santo André - SP", ativo: true },
-    { id: "S03", perfil_profissional_id: "P02", categoria_id: "design_interiores", titulo: "Projeto de ambiente", descricao: "Planta, moodboard e lista de compras.", preco_inicial: 180, localizacao: "São Paulo - SP", ativo: true },
-    { id: "S04", perfil_profissional_id: "P03", categoria_id: "fotografia", titulo: "Cobertura de evento (4h)", descricao: "Até 4 horas de cobertura com 150 fotos tratadas.", preco_inicial: 350, localizacao: "São Bernardo - SP", ativo: true },
-    { id: "S05", perfil_profissional_id: "P04", categoria_id: "pintura", titulo: "Pintura de cômodo", descricao: "Pintura de até 15 m² com massa corrida.", preco_inicial: 400, localizacao: "Mauá - SP", ativo: true },
-    { id: "S06", perfil_profissional_id: "P05", categoria_id: "eletrica", titulo: "Instalação de chuveiro", descricao: "Instalação com troca de resistência.", preco_inicial: 90, localizacao: "São Caetano - SP", ativo: true },
-    { id: "S07", perfil_profissional_id: "P01", categoria_id: "manutencao", titulo: "Pequenos reparos", descricao: "Reparos rápidos em geral.", preco_inicial: 80, localizacao: "Santo André - SP", ativo: false }
-  ],
-  demanda: [
-    { id: "D01", contratante_id: "U01", categoria_id: "eletrica", titulo: "Iluminação da sala", descricao: "Preciso instalar seis pontos de iluminação e revisar dois interruptores. O imóvel está ocupado e o serviço deve ser realizado no sábado.", orcamento: 900, localizacao: "Santo André - SP", prazo: "2026-09-28", status: "contratada", anexos: [], criado_em: "2026-09-15T10:00:00" },
-    { id: "D02", contratante_id: "U01", categoria_id: "eletrica", titulo: "Instalação de chuveiro", descricao: "Trocar o chuveiro do banheiro social por um modelo de 7500 W já comprado.", orcamento: 260, localizacao: "Santo André - SP", prazo: "2026-09-30", status: "aberta", anexos: [], criado_em: "2026-09-21T09:30:00" },
-    { id: "D03", contratante_id: "U06", categoria_id: "eletrica", titulo: "Revisão do quadro elétrico", descricao: "Disjuntores desarmando com frequência. Preciso de diagnóstico e troca se necessário.", orcamento: 450, localizacao: "São Bernardo - SP", prazo: "2026-10-02", status: "aberta", anexos: [], criado_em: "2026-09-22T14:10:00" },
-    { id: "D04", contratante_id: "U06", categoria_id: "manutencao", titulo: "Troca de tomadas", descricao: "Trocar oito tomadas antigas para o padrão novo.", orcamento: 220, localizacao: "Mauá - SP", prazo: "", status: "aberta", anexos: [], criado_em: "2026-09-22T16:45:00" },
-    { id: "D05", contratante_id: "U01", categoria_id: "pintura", titulo: "Pintura do quarto", descricao: "Quarto de 12 m², cor branco gelo, com correção de pequenas trincas.", orcamento: 450, localizacao: "Santo André - SP", prazo: "2026-10-05", status: "contratada", anexos: [], criado_em: "2026-09-18T11:00:00" },
-    { id: "D06", contratante_id: "U01", categoria_id: "fotografia", titulo: "Fotografia do evento", descricao: "Aniversário de 40 anos, cerca de 60 convidados, 4 horas.", orcamento: 400, localizacao: "São Bernardo - SP", prazo: "2026-09-06", status: "contratada", anexos: [], criado_em: "2026-08-28T08:00:00" },
-    { id: "D07", contratante_id: "U01", categoria_id: "eletrica", titulo: "Instalação de ventilador", descricao: "Instalar ventilador de teto no quarto, com ponto já existente.", orcamento: 200, localizacao: "Santo André - SP", prazo: "2026-10-01", status: "aberta", anexos: [], criado_em: "2026-09-20T19:20:00" },
-    { id: "D08", contratante_id: "U06", categoria_id: "eletrica", titulo: "Reparo em tomadas", descricao: "Duas tomadas da cozinha sem energia.", orcamento: 180, localizacao: "São Bernardo - SP", prazo: "2026-09-29", status: "aberta", anexos: [], criado_em: "2026-09-21T13:00:00" },
-    { id: "D09", contratante_id: "U06", categoria_id: "eletrica", titulo: "Tomadas da cozinha", descricao: "Instalar quatro novas tomadas na bancada.", orcamento: 300, localizacao: "São Bernardo - SP", prazo: "2026-08-30", status: "contratada", anexos: [], criado_em: "2026-08-20T10:00:00" },
-    { id: "D10", contratante_id: "U01", categoria_id: "design_interiores", titulo: "Projeto da sala", descricao: "Projeto para sala de 20 m² com home office.", orcamento: 600, localizacao: "Santo André - SP", prazo: "2026-08-25", status: "contratada", anexos: [], criado_em: "2026-08-10T10:00:00" },
-    { id: "D11", contratante_id: "U06", categoria_id: "pintura", titulo: "Pintura da fachada", descricao: "Fachada de sobrado, 40 m².", orcamento: 1500, localizacao: "Mauá - SP", prazo: "2026-08-28", status: "contratada", anexos: [], criado_em: "2026-08-05T10:00:00" }
-  ],
-  proposta: [
-    { id: "R01", demanda_id: "D01", perfil_profissional_id: "P01", valor: 750, prazo: 1, mensagem: "Faço a instalação no sábado pela manhã, material incluso.", status: "aceita", criado_em: "2026-09-15T15:00:00" },
-    { id: "R02", demanda_id: "D01", perfil_profissional_id: "P05", valor: 820, prazo: 2, mensagem: "Posso atender no sábado e no domingo.", status: "recusada", criado_em: "2026-09-15T18:00:00" },
-    { id: "R03", demanda_id: "D07", perfil_profissional_id: "P01", valor: 180, prazo: 1, mensagem: "Instalação com fixação reforçada.", status: "visualizada", criado_em: "2026-09-21T08:00:00" },
-    { id: "R04", demanda_id: "D08", perfil_profissional_id: "P01", valor: 150, prazo: 1, mensagem: "Verifico o circuito e troco as tomadas se necessário.", status: "enviada", criado_em: "2026-09-21T16:00:00" },
-    { id: "R05", demanda_id: "D05", perfil_profissional_id: "P04", valor: 400, prazo: 2, mensagem: "Tinta de primeira linha e proteção dos móveis.", status: "aceita", criado_em: "2026-09-18T15:00:00" },
-    { id: "R06", demanda_id: "D06", perfil_profissional_id: "P03", valor: 350, prazo: 7, mensagem: "Entrega das fotos tratadas em 7 dias.", status: "aceita", criado_em: "2026-08-28T12:00:00" },
-    { id: "R07", demanda_id: "D02", perfil_profissional_id: "P05", valor: 240, prazo: 1, mensagem: "Instalo no mesmo dia, com teste da fiação.", status: "enviada", criado_em: "2026-09-22T10:00:00" },
-    { id: "R08", demanda_id: "D09", perfil_profissional_id: "P01", valor: 280, prazo: 1, mensagem: "Instalação com canaleta embutida.", status: "aceita", criado_em: "2026-08-20T14:00:00" },
-    { id: "R09", demanda_id: "D10", perfil_profissional_id: "P02", valor: 580, prazo: 10, mensagem: "Projeto com duas revisões inclusas.", status: "aceita", criado_em: "2026-08-10T14:00:00" },
-    { id: "R10", demanda_id: "D11", perfil_profissional_id: "P04", valor: 1400, prazo: 4, mensagem: "Textura acrílica e pintura final.", status: "aceita", criado_em: "2026-08-05T14:00:00" }
-  ],
-  contratacao: [
-    { id: "C01", proposta_id: "R01", contratante_id: "U01", perfil_profissional_id: "P01", valor_combinado: 750, status: "em_andamento", data_inicio: "2026-09-20", data_conclusao: "", historico: [
-      { status: "aguardando_inicio", autor_id: "U01", data: "2026-09-16T09:00:00" },
-      { status: "em_andamento", autor_id: "U02", data: "2026-09-20T09:05:00" }] },
-    { id: "C02", proposta_id: "R05", contratante_id: "U01", perfil_profissional_id: "P04", valor_combinado: 400, status: "aguardando_inicio", data_inicio: "", data_conclusao: "", historico: [
-      { status: "aguardando_inicio", autor_id: "U01", data: "2026-09-19T10:00:00" }] },
-    { id: "C03", proposta_id: "R06", contratante_id: "U01", perfil_profissional_id: "P03", valor_combinado: 350, status: "concluida", data_inicio: "2026-09-06", data_conclusao: "2026-09-10", historico: [
-      { status: "aguardando_inicio", autor_id: "U01", data: "2026-08-29T10:00:00" },
-      { status: "em_andamento", autor_id: "U04", data: "2026-09-06T14:00:00" },
-      { status: "entregue", autor_id: "U04", data: "2026-09-10T11:00:00" },
-      { status: "concluida", autor_id: "U01", data: "2026-09-10T20:00:00" }] },
-    { id: "C04", proposta_id: "R08", contratante_id: "U06", perfil_profissional_id: "P01", valor_combinado: 280, status: "concluida", data_inicio: "2026-08-28", data_conclusao: "2026-08-28", historico: [
-      { status: "aguardando_inicio", autor_id: "U06", data: "2026-08-21T10:00:00" },
-      { status: "em_andamento", autor_id: "U02", data: "2026-08-28T08:00:00" },
-      { status: "entregue", autor_id: "U02", data: "2026-08-28T12:00:00" },
-      { status: "concluida", autor_id: "U06", data: "2026-08-28T18:00:00" }] },
-    { id: "C05", proposta_id: "R09", contratante_id: "U01", perfil_profissional_id: "P02", valor_combinado: 580, status: "concluida", data_inicio: "2026-08-12", data_conclusao: "2026-08-22", historico: [
-      { status: "concluida", autor_id: "U01", data: "2026-08-22T18:00:00" }] },
-    { id: "C06", proposta_id: "R10", contratante_id: "U06", perfil_profissional_id: "P04", valor_combinado: 1400, status: "concluida", data_inicio: "2026-08-20", data_conclusao: "2026-08-24", historico: [
-      { status: "concluida", autor_id: "U06", data: "2026-08-24T18:00:00" }] }
-  ],
-  conversa: [
-    { id: "V01", contratacao_id: "C01", ultima_atividade: "2026-09-19T18:40:00" },
-    { id: "V02", contratacao_id: "C02", ultima_atividade: "2026-09-19T10:00:00" },
-    { id: "V03", contratacao_id: "C03", ultima_atividade: "2026-09-10T20:00:00" },
-    { id: "V04", contratacao_id: "C04", ultima_atividade: "2026-08-28T18:00:00" },
-    { id: "V05", contratacao_id: "C05", ultima_atividade: "2026-08-22T18:00:00" },
-    { id: "V06", contratacao_id: "C06", ultima_atividade: "2026-08-24T18:00:00" }
-  ],
-  mensagem: [
-    { id: "M01", conversa_id: "V01", remetente_id: "U02", texto: "Posso iniciar às 9h no sábado.", anexo: "", data: "2026-09-19T18:30:00", lida: true },
-    { id: "M02", conversa_id: "V01", remetente_id: "U01", texto: "Perfeito, o horário funciona.", anexo: "", data: "2026-09-19T18:40:00", lida: true },
-    { id: "M03", conversa_id: "V02", remetente_id: "U05", texto: "Olá, Carla! Qual a melhor data para começar?", anexo: "", data: "2026-09-19T10:00:00", lida: false },
-    { id: "M04", conversa_id: "V03", remetente_id: "U04", texto: "As fotos já estão no link enviado por e-mail.", anexo: "", data: "2026-09-10T11:00:00", lida: true }
-  ],
-  avaliacao: [
-    { id: "A01", contratacao_id: "C03", autor_id: "U01", avaliado_id: "U04", nota: 5, comentario: "Fotos lindas e entregues antes do prazo.", criado_em: "2026-09-11T10:00:00" },
-    { id: "A02", contratacao_id: "C04", autor_id: "U06", avaliado_id: "U02", nota: 5, comentario: "Serviço concluído no prazo e muito organizado.", criado_em: "2026-08-29T10:00:00" },
-    { id: "A03", contratacao_id: "C04", autor_id: "U02", avaliado_id: "U06", nota: 5, comentario: "Contratante pontual e comunicação clara.", criado_em: "2026-08-29T12:00:00" },
-    { id: "A04", contratacao_id: "C05", autor_id: "U01", avaliado_id: "U03", nota: 5, comentario: "Projeto excelente, entendeu exatamente o que eu queria.", criado_em: "2026-08-23T10:00:00" },
-    { id: "A05", contratacao_id: "C06", autor_id: "U06", avaliado_id: "U05", nota: 4, comentario: "Bom acabamento, atrasou meio dia.", criado_em: "2026-08-25T10:00:00" }
-  ],
-  notificacao: [
-    { id: "N01", destinatario_id: "U02", tipo: "proposta", texto: "Sua proposta para \"Iluminação da sala\" foi aceita.", link: "#/contratacoes/C01", lida: true, data: "2026-09-16T09:00:00" },
-    { id: "N02", destinatario_id: "U01", tipo: "mensagem", texto: "Rafael Souza enviou uma mensagem em \"Pintura do quarto\".", link: "#/contratacoes/C02", lida: false, data: "2026-09-19T10:00:00" },
-    { id: "N03", destinatario_id: "U01", tipo: "proposta", texto: "Nova proposta recebida em \"Instalação de chuveiro\".", link: "#/demandas/D02", lida: false, data: "2026-09-22T10:00:00" },
-    { id: "N04", destinatario_id: "U02", tipo: "mudanca_status", texto: "A proposta para \"Instalação de ventilador\" foi visualizada.", link: "#/propostas", lida: false, data: "2026-09-21T12:00:00" }
-  ]
-};
-
-/* ---------- Camada de dados (simula o banco do Bubble) ----------
-   No Bubble, cada função abaixo corresponde a uma ação de workflow:
-   inserir = "Create a new thing", atualizar = "Make changes to a thing",
-   remover = "Delete thing". O localStorage só guarda a demonstração
-   neste navegador. */
-const CHAVE_DB = "trabalink-db-v1";
-const CHAVE_SESSAO = "trabalink-sessao-v1";
-
-function clonar(o) { return JSON.parse(JSON.stringify(o)); }
-
-function lerStorage(chave) {
-  try { const v = localStorage.getItem(chave); return v ? JSON.parse(v) : null; } catch (e) { return null; }
-}
-function gravarStorage(chave, valor) {
-  try { localStorage.setItem(chave, JSON.stringify(valor)); } catch (e) { /* modo privado: segue só em memória */ }
-}
-
-const DB = {
-  dados: lerStorage(CHAVE_DB) || clonar(SEED),
-  salvar() { gravarStorage(CHAVE_DB, this.dados); },
-  restaurar() { this.dados = clonar(SEED); recalcularMedias(); this.salvar(); },
-  todos(tabela) { return this.dados[tabela]; },
-  obter(tabela, id) { return this.dados[tabela].find(r => r.id === id) || null; },
-  filtrar(tabela, fn) { return this.dados[tabela].filter(fn); },
-  inserir(tabela, registro) {
-    const prefixo = { usuario: "U", perfil_profissional: "P", habilidade: "H", profissional_habilidade: "PH", portfolio: "PF", servico: "S", demanda: "D", proposta: "R", contratacao: "C", conversa: "V", mensagem: "M", avaliacao: "A", notificacao: "N" }[tabela];
-    const novo = Object.assign({ id: prefixo + Date.now().toString(36) + Math.random().toString(36).slice(2, 5) }, registro);
-    this.dados[tabela].push(novo);
-    this.salvar();
-    return novo;
-  },
-  atualizar(tabela, id, campos) {
-    const r = this.obter(tabela, id);
-    if (r) { Object.assign(r, campos); this.salvar(); }
-    return r;
-  },
-  remover(tabela, id) {
-    this.dados[tabela] = this.dados[tabela].filter(r => r.id !== id);
-    this.salvar();
-  }
-};
-
-/* RF15: a média exibida é recalculada a partir das avaliações recebidas. */
-function recalcularMedias() {
-  DB.dados.perfil_profissional.forEach(p => {
-    const notas = DB.dados.avaliacao.filter(a => a.avaliado_id === p.usuario_id).map(a => a.nota);
-    p.media_avaliacao = notas.length ? Math.round((notas.reduce((s, n) => s + n, 0) / notas.length) * 10) / 10 : 0;
-  });
-}
-recalcularMedias();
-
-const Sessao = {
-  usuarioId: (lerStorage(CHAVE_SESSAO) || {}).usuarioId || null,
-  entrar(id) { this.usuarioId = id; gravarStorage(CHAVE_SESSAO, { usuarioId: id }); },
-  sair() { this.usuarioId = null; gravarStorage(CHAVE_SESSAO, {}); },
-  usuario() { return this.usuarioId ? DB.obter("usuario", this.usuarioId) : null; }
-};
-
 /* =========================================================
    Trabalink — telas (WF-01 a WF-08) e workflows
    Cada função tela*() equivale a uma página do Bubble; os
    atributos data-bb dão o nome do Group correspondente.
-   Cada função wf*() equivale a um workflow do editor.
+   Cada função wf*() equivale a um workflow do editor; aqui elas
+   chamam a API (lib/app.js), que valida as regras no servidor.
    ========================================================= */
 
 /* ---------- Navegação ----------
@@ -688,6 +17,8 @@ const Nav = {
     this.rota = h;
     try { history.pushState(null, "", h); } catch (e) { /* ambiente sem histórico */ }
     render();
+    // mostra a tela na hora e confere no servidor se há algo mais novo
+    if (Sync.carregado) Sync.recarregar().then(mudou => { if (mudou) atualizarSeOcioso(); }).catch(() => {});
   }
 };
 function sincronizarRota() { try { const h = location.hash.startsWith("#/") ? location.hash : "#/"; if (h !== Nav.rota) { Nav.rota = h; render(); } } catch (e) { } }
@@ -765,11 +96,6 @@ function completudePerfil(perfil) {
   return Math.round(itens.filter(Boolean).length / itens.length * 100);
 }
 
-/* ---------- Notificações (RF16) ---------- */
-function notificar(destinatario_id, tipo, texto, link) {
-  if (!destinatario_id || destinatario_id === Sessao.usuarioId) return;
-  DB.inserir("notificacao", { destinatario_id, tipo, texto, link, lida: false, data: agora() });
-}
 
 /* ---------- Toast, modal ---------- */
 function toast(texto, tipo = "") {
@@ -814,6 +140,31 @@ function validar(form) {
 }
 const campo = (rotulo, controle, { obrigatorio = false, erro = "Preencha este campo.", ajuda = "", classe = "" } = {}) =>
   `<div class="campo ${classe}" ${obrigatorio ? "data-obrigatorio" : ""}>${rotulo ? `<label>${esc(rotulo)}</label>` : ""}${controle}${ajuda ? `<span class="ajuda">${esc(ajuda)}</span>` : ""}<span class="erro-msg">${esc(erro)}</span></div>`;
+/* CEP com preenchimento automático pelo ViaCEP. formato: "bairro" (Bairro, Cidade - UF) ou "cidade" (Cidade - UF) */
+function campoCep(valor, formato = "cidade", alvo = "localizacao") {
+  return campo("CEP", `<input class="input" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" value="${esc(valor || "")}" data-cep="${formato}" data-cep-alvo="${alvo}">`,
+    { ajuda: "Preenche a localização automaticamente (ViaCEP).", erro: "CEP não encontrado." });
+}
+const formatarCep = v => { const d = String(v).replace(/\D/g, "").slice(0, 8); return d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d; };
+async function aoDigitarCep(input) {
+  input.value = formatarCep(input.value);
+  const bloco = input.closest(".campo");
+  const ajuda = bloco.querySelector(".ajuda");
+  bloco.classList.remove("invalido");
+  if (input.value.replace(/\D/g, "").length !== 8) return;
+  ajuda.textContent = "Consultando CEP…";
+  try {
+    const r = await consultarCep(input.value);
+    const alvo = input.form && input.form.querySelector(`[name="${input.dataset.cepAlvo}"]`);
+    const local = input.dataset.cep === "bairro" && r.bairro ? `${r.bairro}, ${r.cidade} - ${r.uf}` : `${r.cidade} - ${r.uf}`;
+    if (alvo) { alvo.value = local; alvo.closest(".campo")?.classList.remove("invalido"); }
+    ajuda.textContent = `✓ ${r.logradouro ? r.logradouro + ", " : ""}${local}`;
+  } catch (e) {
+    bloco.querySelector(".erro-msg").textContent = e.message;
+    bloco.classList.add("invalido");
+    ajuda.textContent = "Preenche a localização automaticamente (ViaCEP).";
+  }
+}
 function lerForm(form) { return Object.fromEntries(new FormData(form).entries()); }
 function lerArquivo(input) {
   return new Promise(resolve => {
@@ -975,6 +326,7 @@ function telaBusca() {
 /* =========================================================
    WF-02 Acesso e cadastro  (RF01, RF02)
    ========================================================= */
+const CONTAS_DEMO = [["U01", "carla@trabalink.dev"], ["U02", "joao@trabalink.dev"], ["U06", "bruno@trabalink.dev"], ["U03", "mariana@trabalink.dev"]];
 function telaAcesso(modo = "entrar") {
   const destaque = `
     <section class="boas-vindas" data-bb="Group Boas-vindas">
@@ -1026,8 +378,8 @@ function telaAcesso(modo = "entrar") {
       <hr class="divisor">
       <p class="pequeno suave" style="margin-bottom:10px">Contas de demonstração (senha <strong>demo1234</strong>):</p>
       <div class="contas-demo">
-        ${["U01", "U02", "U06", "U03"].map(id => { const u = DB.obter("usuario", id); return `
-          <button class="conta-demo" data-act="login-demo" data-id="${id}">${avatar(u, "avatar-sm")}<span><strong>${esc(u.nome)}</strong><br><span class="pequeno suave">${esc(opcao("papel_usuario", u.papel))} · ${esc(u.email)}</span></span></button>`; }).join("")}
+        ${CONTAS_DEMO.map(([id, email]) => { const u = DB.obter("usuario", id); if (!u) return ""; return `
+          <button class="conta-demo" data-act="login-demo" data-email="${email}">${avatar(u, "avatar-sm")}<span><strong>${esc(u.nome)}</strong><br><span class="pequeno suave">${esc(opcao("papel_usuario", u.papel))} · ${esc(email)}</span></span></button>`; }).join("")}
       </div>`;
   }
   return `<main class="pagina" data-bb="Page acesso"><div class="acesso">${destaque}
@@ -1048,7 +400,7 @@ function telaPerfil(pid) {
   const portfolio = DB.filtrar("portfolio", i => i.perfil_profissional_id === p.id).sort((a, b) => a.ordem - b.ordem);
   const avals = Q.avaliacoesRecebidas(u.id);
   const ultima = avals[0];
-  const contratacoes = DB.filtrar("contratacao", c => c.perfil_profissional_id === p.id && c.status === "concluida").length;
+  const contratacoes = p.total_concluidas || 0;
   let acoes;
   if (proprio) acoes = `<a class="btn btn-primario" href="#/perfil-profissional">Editar perfil</a><a class="btn btn-contorno" href="#/painel">Ir para o painel</a>`;
   else if (eu && eu.papel === "profissional") acoes = `<span class="aviso-box pequeno">Entre como contratante para solicitar este serviço.</span>`;
@@ -1122,7 +474,7 @@ function telaNovaDemanda(params, editarId) {
   if (d && d.status !== "aberta") return telaMensagem("Esta demanda não pode mais ser editada", "Somente demandas abertas podem ser alteradas.", `<a class="btn btn-primario" href="#/demandas/${d.id}">Ver demanda</a>`);
   const prof = params.get("profissional") ? DB.obter("perfil_profissional", params.get("profissional")) : null;
   const profNome = prof ? Q.usuarioDoPerfil(prof.id)?.nome : "";
-  const v = d || { titulo: "", categoria_id: params.get("categoria") || "", descricao: "", orcamento: "", localizacao: "", prazo: "" };
+  const v = d || { titulo: "", categoria_id: params.get("categoria") || "", descricao: "", orcamento: "", localizacao: "", cep: "", prazo: "" };
   const hoje = new Date().toISOString().slice(0, 10);
   return `
   <main class="pagina pagina-estreita" data-bb="Page nova-demanda">
@@ -1133,9 +485,10 @@ function telaNovaDemanda(params, editarId) {
       ${campo("Título da demanda", `<input class="input" name="titulo" maxlength="80" placeholder="Ex.: Instalação de iluminação" value="${esc(v.titulo)}">`, { obrigatorio: true })}
       ${campo("Categoria", `<select class="select" name="categoria_id">${opcoesSelect("categoria", v.categoria_id, "Selecione")}</select>`, { obrigatorio: true, erro: "Escolha uma categoria." })}
       ${campo("Descrição do serviço", `<textarea class="textarea" name="descricao" data-minlen="20" placeholder="Informe o problema, o resultado esperado e detalhes importantes.">${esc(v.descricao)}</textarea>`, { obrigatorio: true, erro: "Descreva com pelo menos 20 caracteres.", classe: "span-all" })}
-      <div class="span-all form-grid cols-3">
+      <div class="span-all form-grid cols-2">
+        ${campoCep(v.cep, "bairro")}
+        ${campo("Localização", `<input class="input" name="localizacao" placeholder="Bairro, cidade - UF" value="${esc(v.localizacao)}">`, { obrigatorio: true })}
         ${campo("Orçamento estimado (R$)", `<input class="input" type="number" name="orcamento" min="1" step="1" data-min="1" placeholder="0" value="${esc(v.orcamento)}">`, { obrigatorio: true, erro: "Informe um valor maior que zero." })}
-        ${campo("Localização", `<input class="input" name="localizacao" placeholder="Cidade ou bairro" value="${esc(v.localizacao)}">`, { obrigatorio: true })}
         ${campo("Prazo desejado", `<input class="input" type="date" name="prazo" min="${hoje}" value="${esc(v.prazo)}">`, { ajuda: "Opcional. Em branco = prazo negociável." })}
       </div>
       <div class="span-all">${campo("Anexos opcionais: fotos ou documentos", `<div class="arquivo"><input type="file" name="anexos" multiple accept="image/*,.pdf"></div>`)}</div>
@@ -1184,11 +537,8 @@ function telaDemanda(did) {
   const contratante = DB.obter("usuario", d.contratante_id);
   const props = Q.propostasDaDemanda(d.id).filter(r => r.status !== "cancelada");
 
-  // RN04: ao abrir, o contratante marca as propostas enviadas como visualizadas.
-  if (dono) props.filter(r => r.status === "enviada").forEach(r => {
-    DB.atualizar("proposta", r.id, { status: "visualizada" });
-    notificar(Q.usuarioDoPerfil(r.perfil_profissional_id)?.id, "mudanca_status", `Sua proposta para "${d.titulo}" foi visualizada.`, "#/propostas");
-  });
+  // RN04: ao abrir, as propostas enviadas passam a "visualizada" (no servidor).
+  if (dono && props.some(r => r.status === "enviada")) acao("demanda.visualizar", { id: d.id }).then(() => atualizarSeOcioso()).catch(() => {});
 
   let lateral;
   if (dono) lateral = painelPropostasRecebidas(d);
@@ -1209,7 +559,7 @@ function telaDemanda(did) {
         <dl class="info-lista" style="margin:32px 0 0">
           <div><dt>Orçamento estimado</dt><dd>Até ${brl(d.orcamento)}</dd></div>
           <div><dt>Prazo desejado</dt><dd>${d.prazo ? "Até " + dataBR(d.prazo) : "Prazo negociável"}</dd></div>
-          <div><dt>Propostas recebidas</dt><dd>${props.length} ${props.length === 1 ? "proposta" : "propostas"}</dd></div>
+          <div><dt>Propostas recebidas</dt><dd>${d.total_propostas} ${d.total_propostas === 1 ? "proposta" : "propostas"}</dd></div>
         </dl>
         ${dono && d.status === "aberta" ? `<div class="linha" style="margin-top:28px"><a class="btn btn-contorno btn-sm" href="#/demandas/${d.id}/editar">Editar demanda</a><button class="btn btn-perigo btn-sm" data-act="cancelar-demanda" data-id="${d.id}">Cancelar demanda</button></div>` : ""}
       </section>
@@ -1277,9 +627,8 @@ function telaContratacoes(cid) {
   const outro = souProf ? ct : pu;
   const conversa = Q.conversaDa(c.id);
   const msgs = conversa ? DB.filtrar("mensagem", m => m.conversa_id === conversa.id).sort((a, b) => a.data.localeCompare(b.data)) : [];
-  // marca como lidas as mensagens recebidas
-  msgs.filter(m => m.remetente_id !== u.id && !m.lida).forEach(m => { m.lida = true; });
-  DB.salvar();
+  // marca como lidas as mensagens recebidas (no servidor)
+  if (msgs.some(m => m.remetente_id !== u.id && !m.lida)) acao("mensagem.lidas", { contratacao_id: c.id }).then(() => renderHeader(Nav.caminho())).catch(() => {});
   const proposta = DB.obter("proposta", c.proposta_id);
   const idx = ETAPAS.indexOf(c.status);
   const minhaAval = DB.filtrar("avaliacao", a => a.contratacao_id === c.id && a.autor_id === u.id)[0];
@@ -1322,6 +671,7 @@ function telaContratacoes(cid) {
                   <div class="msg ${minha ? "minha" : ""}"><div class="autor">${minha ? "Você" : esc(autor?.nome.split(" ")[0])}<span class="hora">${dataHora(m.data)}</span></div>${esc(m.texto)}</div>`; }).join("")
                   : `<p class="suave pequeno" style="text-align:center;margin:auto">Nenhuma mensagem. Combine os detalhes por aqui.</p>`}
               </div>
+              <p class="pequeno suave" style="margin:-8px 0 10px">Atualiza sozinho a cada poucos segundos.</p>
               ${c.status === "cancelada" ? `<p class="pequeno suave">A conversa foi encerrada.</p>` : `
               <form class="chat-form" data-form="mensagem" data-conversa="${conversa?.id}" data-contratacao="${c.id}">
                 <label class="sr-only" for="msg-texto">Mensagem</label>
@@ -1474,7 +824,8 @@ function telaGestaoPerfil() {
         <section class="cartao" id="sec-dados" data-bb="Group Dados profissionais">
           <h2 style="margin-bottom:20px">Dados profissionais</h2>
           <div class="form-grid cols-2">
-            ${campo("Título profissional", `<input class="input" name="titulo" maxlength="60" placeholder="Ex.: Eletricista residencial" value="${esc(p.titulo)}">`, { obrigatorio: true })}
+            ${campo("Título profissional", `<input class="input" name="titulo" maxlength="60" placeholder="Ex.: Eletricista residencial" value="${esc(p.titulo)}">`, { obrigatorio: true, classe: "span-2" })}
+            ${campoCep(p.cep, "cidade")}
             ${campo("Localização", `<input class="input" name="localizacao" placeholder="Cidade - UF" value="${esc(p.localizacao)}">`, { obrigatorio: true })}
             ${campo("Biografia", `<textarea class="textarea" name="biografia" data-minlen="20" placeholder="Descreva sua experiência e forma de atendimento.">${esc(p.biografia)}</textarea>`, { obrigatorio: true, erro: "Escreva ao menos 20 caracteres.", classe: "span-2" })}
             ${campo("Categoria principal", `<select class="select" name="categoria_id">${opcoesSelect("categoria", p.categoria_id, "Selecione")}</select>`, { obrigatorio: true, erro: "Escolha uma categoria." })}
@@ -1526,7 +877,7 @@ function formServico(s) {
       ${campo("Preço inicial (R$)", `<input class="input" type="number" name="preco_inicial" min="1" data-min="1" value="${esc(s.preco_inicial)}">`, { obrigatorio: true, erro: "Informe um valor maior que zero." })}
     </div>
     ${campo("Descrição", `<textarea class="textarea" name="descricao">${esc(s.descricao)}</textarea>`)}
-    ${campo("Localização", `<input class="input" name="localizacao" value="${esc(s.localizacao)}">`)}
+    <div class="form-grid cols-2">${campoCep("", "cidade")}${campo("Localização", `<input class="input" name="localizacao" value="${esc(s.localizacao)}">`)}</div>
     <label class="check"><input type="checkbox" name="ativo" ${s.ativo ? "checked" : ""}> Serviço ativo (visível no perfil e na busca)</label>
     <div class="modal-rodape">${s.id ? `<button type="button" class="btn btn-perigo" data-act="remover-servico" data-id="${s.id}" style="margin-right:auto">Remover</button>` : ""}
       <button type="button" class="btn btn-contorno" data-act="fechar-modal">Cancelar</button><button class="btn btn-primario" type="submit">Salvar serviço</button></div>
@@ -1613,244 +964,209 @@ function render() {
 /* re-render sem perder a rolagem (após ações na mesma página) */
 function atualizar() { const y = window.scrollY; render(); window.scrollTo(0, y); }
 
+/* Chamado quando chegam dados novos do servidor (outra pessoa agiu).
+   Não re-renderiza por cima de quem está digitando; na conversa,
+   preserva o texto e o foco do campo de mensagem. */
+let atualizacaoPendente = false;
+function atualizarSeOcioso() {
+  renderHeader(Nav.caminho());
+  const ativo = document.activeElement;
+  const digitando = ativo && ativo.matches("input, textarea, select") && ativo.id !== "msg-texto";
+  if ($("#modal") || digitando) { atualizacaoPendente = true; return; }
+  const msg = $("#msg-texto");
+  const rascunho = msg ? msg.value : null;
+  const focado = !!(ativo && ativo.id === "msg-texto");
+  const chat = $("#chat-msgs");
+  const noFim = !chat || chat.scrollHeight - chat.scrollTop - chat.clientHeight < 40;
+  atualizacaoPendente = false;
+  const y = window.scrollY; render(); window.scrollTo(0, y);
+  const m2 = $("#msg-texto");
+  if (m2 && rascunho !== null) { m2.value = rascunho; if (focado) m2.focus(); }
+  const c2 = $("#chat-msgs"); if (c2 && noFim) c2.scrollTop = c2.scrollHeight;
+}
+document.addEventListener("focusout", () => setTimeout(() => {
+  if (atualizacaoPendente && !$("#modal") && !(document.activeElement && document.activeElement.matches("input, textarea, select"))) atualizarSeOcioso();
+}, 200));
+
 /* =========================================================
-   Workflows (eventos de formulário e botões)
+   Workflows (formulários e botões): cada um chama a API
    ========================================================= */
+function erroApi(e) {
+  if (e.status === 401) {
+    toast("Sua sessão expirou. Entre novamente.", "erro");
+    Sync.forcar().catch(() => {}).finally(() => Nav.ir("#/entrar?voltar=" + encodeURIComponent(Nav.atual())));
+    return;
+  }
+  toast(e.message, "erro");
+  if (e.status === 409) Sync.forcar().then(atualizar).catch(() => {});
+}
+
 const FORMS = {
-  busca(form) {
+  async busca(form) {
     const v = lerForm(form);
-    filtrosBusca.termo = v.termo; filtrosBusca.local = v.local;
+    filtrosBusca.termo = v.termo;
+    filtrosBusca.local = v.local;
+    // Aceita CEP no campo de cidade: converte para a cidade pelo ViaCEP
+    if (/^\d{5}-?\d{3}$/.test(v.local.trim())) {
+      try { const r = await consultarCep(v.local); filtrosBusca.local = r.cidade; toast(`Buscando em ${r.cidade} - ${r.uf}.`); }
+      catch (e) { toast(e.message, "erro"); filtrosBusca.local = ""; }
+    }
     if (Nav.atual().startsWith("#/busca") || Nav.atual() === "#/") atualizar(); else Nav.ir("#/busca");
   },
-  login(form) {
+  async login(form) {
     if (!validar(form)) return;
     const v = lerForm(form);
-    const u = DB.filtrar("usuario", x => x.email.toLowerCase() === v.email.trim().toLowerCase())[0];
-    if (!u || u.senha !== v.senha) return toast("E-mail ou senha incorretos.", "erro");
-    wfEntrar(u);
+    await wfEntrar(v.email.trim(), v.senha);
   },
-  cadastro(form) {
+  async cadastro(form) {
     if (!validar(form)) return;
     const v = lerForm(form);
-    if (DB.filtrar("usuario", x => x.email.toLowerCase() === v.email.trim().toLowerCase()).length) {
-      const c = form.querySelector("[name=email]").closest(".campo"); c.classList.add("invalido"); c.querySelector(".erro-msg").textContent = "Este e-mail já possui conta (RN01)."; return;
+    try {
+      await api("cadastro", { nome: v.nome, email: v.email, senha: v.senha, papel: v.papel, termos: !!v.termos });
+    } catch (e) {
+      if (e.status === 409) {
+        const c = form.querySelector("[name=email]").closest(".campo");
+        c.classList.add("invalido");
+        c.querySelector(".erro-msg").textContent = e.message;
+        return;
+      }
+      throw e;
     }
-    const u = DB.inserir("usuario", { nome: v.nome.trim(), email: v.email.trim().toLowerCase(), senha: v.senha, papel: v.papel, telefone: "", foto: "", status: "ativo" });
-    if (u.papel === "profissional") DB.inserir("perfil_profissional", { usuario_id: u.id, titulo: "", categoria_id: "", biografia: "", localizacao: "", area_atendimento: "25km", disponibilidade: "seg_sex", faixa_preco: 0, media_avaliacao: 0 });
+    await Sync.forcar();
     toast("Conta criada. Bem-vindo(a) ao Trabalink!", "ok");
-    Sessao.entrar(u.id);
-    Nav.ir(u.papel === "profissional" ? "#/perfil-profissional" : "#/");
+    Nav.ir(v.papel === "profissional" ? "#/perfil-profissional" : "#/");
   },
-  recuperar(form) {
+  async recuperar(form) {
     if (!validar(form)) return;
-    toast("Se o e-mail estiver cadastrado, você receberá o link de redefinição.", "ok");
+    await api("recuperar", lerForm(form)).catch(() => {});
+    toast("Se o e-mail estiver cadastrado, você receberá as instruções de redefinição.", "ok");
     Nav.ir("#/entrar");
   },
   async demanda(form) {
     if (!validar(form)) return;
     const v = lerForm(form);
     const anexos = [...(form.querySelector("[name=anexos]").files || [])].map(f => f.name);
-    const campos = { titulo: v.titulo.trim(), categoria_id: v.categoria_id, descricao: v.descricao.trim(), orcamento: Number(v.orcamento), localizacao: v.localizacao.trim(), prazo: v.prazo };
-    if (form.dataset.id) {
-      const d = DB.obter("demanda", form.dataset.id);
-      if (d.status !== "aberta") return toast("A demanda não está mais aberta.", "erro");
-      DB.atualizar("demanda", d.id, Object.assign(campos, anexos.length ? { anexos } : {}));
-      toast("Demanda atualizada.", "ok");
-      Nav.ir("#/demandas/" + d.id);
-    } else {
-      const d = DB.inserir("demanda", Object.assign(campos, { contratante_id: Sessao.usuarioId, status: "aberta", anexos, criado_em: agora() }));
-      toast("Demanda publicada. Os profissionais da categoria já podem enviar propostas.", "ok");
-      Nav.ir("#/demandas/" + d.id);
-    }
+    const r = await acao("demanda.salvar", { id: form.dataset.id || undefined, titulo: v.titulo, categoria_id: v.categoria_id, descricao: v.descricao, orcamento: v.orcamento, localizacao: v.localizacao, cep: v.cep, prazo: v.prazo, anexos });
+    toast(form.dataset.id ? "Demanda atualizada." : "Demanda publicada. Os profissionais da categoria já podem enviar propostas.", "ok");
+    Nav.ir("#/demandas/" + r.id);
   },
-  proposta(form) {
+  async proposta(form) {
     if (!validar(form)) return;
-    const d = DB.obter("demanda", form.dataset.demanda);
-    const perfil = Q.perfilDoUsuario(Sessao.usuarioId);
-    // validação no servidor (RN02, RN04, RNF15)
-    if (d.status !== "aberta") { toast("A demanda foi encerrada antes do envio.", "erro"); return atualizar(); }
-    if (!perfilMinimo(perfil)) return toast("Complete o perfil para enviar propostas.", "erro");
-    if (DB.filtrar("proposta", r => r.demanda_id === d.id && r.perfil_profissional_id === perfil.id && r.status !== "cancelada").length) return toast("Você já enviou proposta para esta demanda.", "erro");
     const v = lerForm(form);
-    DB.inserir("proposta", { demanda_id: d.id, perfil_profissional_id: perfil.id, valor: Number(v.valor), prazo: Number(v.prazo), mensagem: v.mensagem.trim(), status: "enviada", criado_em: agora() });
-    notificar(d.contratante_id, "proposta", `Nova proposta recebida em "${d.titulo}".`, "#/demandas/" + d.id);
+    await acao("proposta.enviar", { demanda_id: form.dataset.demanda, valor: v.valor, prazo: v.prazo, mensagem: v.mensagem });
     toast("Proposta enviada ao contratante.", "ok");
     atualizar();
   },
-  mensagem(form) {
-    const texto = form.querySelector("[name=texto]").value.trim();
+  async mensagem(form) {
+    const input = form.querySelector("[name=texto]");
+    const texto = input.value.trim();
     if (!texto) return;
-    const c = DB.obter("contratacao", form.dataset.contratacao);
-    if (c.status === "cancelada") return;
-    let conversa = DB.obter("conversa", form.dataset.conversa);
-    if (!conversa) conversa = DB.inserir("conversa", { contratacao_id: c.id, ultima_atividade: agora() });
-    DB.inserir("mensagem", { conversa_id: conversa.id, remetente_id: Sessao.usuarioId, texto, anexo: "", data: agora(), lida: false });
-    DB.atualizar("conversa", conversa.id, { ultima_atividade: agora() });
-    const pu = Q.usuarioDoPerfil(c.perfil_profissional_id);
-    const destino = pu.id === Sessao.usuarioId ? c.contratante_id : pu.id;
-    notificar(destino, "mensagem", `${Sessao.usuario().nome} enviou uma mensagem em "${Q.demandaDaContratacao(c)?.titulo}".`, "#/contratacoes/" + c.id);
+    input.value = "";
+    try {
+      await acao("mensagem.enviar", { contratacao_id: form.dataset.contratacao, texto });
+    } catch (e) { input.value = texto; throw e; }
     atualizar();
+    const c = $("#chat-msgs"); if (c) c.scrollTop = c.scrollHeight;
     const i = $("#msg-texto"); if (i) i.focus();
   },
-  avaliacao(form) {
+  async avaliacao(form) {
     const v = lerForm(form);
     if (!v.nota) return toast("Escolha uma nota de 1 a 5.", "erro");
-    const c = DB.obter("contratacao", form.dataset.id);
-    // RN07 e RNF15: só após a conclusão e uma única vez por parte
-    if (c.status !== "concluida") return toast("A avaliação só é liberada após a conclusão.", "erro");
-    if (DB.filtrar("avaliacao", a => a.contratacao_id === c.id && a.autor_id === Sessao.usuarioId).length) { fecharModal(); return toast("Você já avaliou esta contratação.", "erro"); }
-    const pu = Q.usuarioDoPerfil(c.perfil_profissional_id);
-    const avaliado = pu.id === Sessao.usuarioId ? c.contratante_id : pu.id;
-    DB.inserir("avaliacao", { contratacao_id: c.id, autor_id: Sessao.usuarioId, avaliado_id: avaliado, nota: Number(v.nota), comentario: (v.comentario || "").trim(), criado_em: agora() });
-    recalcularMedias(); DB.salvar();
-    notificar(avaliado, "avaliacao", `${Sessao.usuario().nome} avaliou a contratação "${Q.demandaDaContratacao(c)?.titulo}".`, "#/contratacoes/" + c.id);
+    await acao("avaliacao.criar", { contratacao_id: form.dataset.id, nota: v.nota, comentario: v.comentario });
     fecharModal();
     toast("Avaliação publicada. Obrigado!", "ok");
     atualizar();
   },
-  perfil(form) { wfSalvarPerfil(form); },
-  servico(form) {
+  async perfil(form) { await wfSalvarPerfil(form); },
+  async servico(form) {
     if (!validar(form)) return;
     const v = lerForm(form);
-    const perfil = Q.perfilDoUsuario(Sessao.usuarioId);
-    const ativo = !!v.ativo;
-    if (ativo && !perfilMinimo(perfil)) return toast("Complete os dados profissionais antes de ativar serviços (RN02).", "erro");
-    const campos = { titulo: v.titulo.trim(), categoria_id: v.categoria_id, preco_inicial: Number(v.preco_inicial), descricao: v.descricao.trim(), localizacao: v.localizacao.trim(), ativo };
-    if (form.dataset.id) DB.atualizar("servico", form.dataset.id, campos);
-    else DB.inserir("servico", Object.assign(campos, { perfil_profissional_id: perfil.id }));
-    fecharModal(); toast("Serviço salvo.", "ok"); atualizar();
+    await acao("servico.salvar", { id: form.dataset.id || undefined, titulo: v.titulo, categoria_id: v.categoria_id, preco_inicial: v.preco_inicial, descricao: v.descricao, localizacao: v.localizacao, ativo: !!v.ativo });
+    fecharModal(); toast("Serviço salvo.", "ok"); atualizarMantendoRascunho();
   },
   async item(form) {
     if (!validar(form)) return;
     const v = lerForm(form);
     const arquivo = await lerArquivo(form.querySelector("[name=arquivo]"));
     if (arquivo === null) return;
-    const perfil = Q.perfilDoUsuario(Sessao.usuarioId);
-    const campos = { titulo: v.titulo.trim(), descricao: v.descricao.trim() };
-    if (arquivo) campos.arquivo = arquivo;
-    if (form.dataset.id) DB.atualizar("portfolio", form.dataset.id, campos);
-    else DB.inserir("portfolio", Object.assign({ arquivo: "" }, campos, { perfil_profissional_id: perfil.id, ordem: DB.filtrar("portfolio", i => i.perfil_profissional_id === perfil.id).length + 1 }));
-    fecharModal(); toast("Item do portfólio salvo.", "ok"); atualizar();
+    await acao("portfolio.salvar", { id: form.dataset.id || undefined, titulo: v.titulo, descricao: v.descricao, arquivo: arquivo || undefined });
+    fecharModal(); toast("Item do portfólio salvo.", "ok"); atualizarMantendoRascunho();
   },
   async conta(form) {
     if (!validar(form)) return;
     const v = lerForm(form);
     const foto = await lerArquivo(form.querySelector("[name=foto]"));
     if (foto === null) return;
-    const campos = { nome: v.nome.trim(), telefone: v.telefone.trim() };
-    if (foto) campos.foto = foto;
-    DB.atualizar("usuario", Sessao.usuarioId, campos);
+    await acao("conta.salvar", { nome: v.nome, telefone: v.telefone, foto: foto || undefined });
     toast("Dados da conta atualizados.", "ok"); atualizar();
   }
 };
 
-function wfEntrar(u) {
-  Sessao.entrar(u.id);
+async function wfEntrar(email, senha) {
+  try { await api("login", { email, senha }); }
+  catch (e) { return toast(e.message, "erro"); }
+  await Sync.forcar();
+  const u = Sessao.usuario();
   toast(`Olá, ${u.nome.split(" ")[0]}!`, "ok");
   const voltar = new URLSearchParams(Nav.atual().split("?")[1] || "").get("voltar");
   Nav.ir(voltar || (u.papel === "profissional" ? "#/painel" : "#/"));
 }
-function wfSalvarPerfil(form) {
+async function wfSalvarPerfil(form) {
   form = form || $("[data-form=perfil]");
   if (!validar(form)) return toast("Revise os campos destacados.", "erro");
-  const v = lerForm(form);
-  const p = Q.perfilDoUsuario(Sessao.usuarioId);
-  DB.atualizar("perfil_profissional", p.id, { titulo: v.titulo.trim(), localizacao: v.localizacao.trim(), biografia: v.biografia.trim(), categoria_id: v.categoria_id, area_atendimento: v.area_atendimento, disponibilidade: v.disponibilidade, faixa_preco: Number(v.faixa_preco || 0) });
+  await acao("perfil.salvar", lerForm(form));
   toast("Perfil salvo.", "ok"); atualizar();
 }
-/* RN05 + RNF15: aceitar uma proposta cria a contratação e encerra as concorrentes */
-function wfAceitarProposta(rid) {
-  const r = DB.obter("proposta", rid);
-  const d = DB.obter("demanda", r.demanda_id);
-  if (d.contratante_id !== Sessao.usuarioId) return toast("Somente o contratante da demanda pode aceitar.", "erro");
-  if (d.status !== "aberta" || !["enviada", "visualizada"].includes(r.status)) { toast("Esta proposta não está mais disponível.", "erro"); return atualizar(); }
-  DB.atualizar("proposta", r.id, { status: "aceita" });
-  Q.propostasDaDemanda(d.id).filter(x => x.id !== r.id && ["enviada", "visualizada"].includes(x.status)).forEach(x => {
-    DB.atualizar("proposta", x.id, { status: "recusada" });
-    notificar(Q.usuarioDoPerfil(x.perfil_profissional_id)?.id, "proposta", `A demanda "${d.titulo}" foi contratada com outro profissional.`, "#/propostas");
-  });
-  DB.atualizar("demanda", d.id, { status: "contratada" });
-  const c = DB.inserir("contratacao", { proposta_id: r.id, contratante_id: d.contratante_id, perfil_profissional_id: r.perfil_profissional_id, valor_combinado: r.valor, status: "aguardando_inicio", data_inicio: "", data_conclusao: "", historico: [{ status: "aguardando_inicio", autor_id: Sessao.usuarioId, data: agora() }] });
-  DB.inserir("conversa", { contratacao_id: c.id, ultima_atividade: agora() });
-  notificar(Q.usuarioDoPerfil(r.perfil_profissional_id)?.id, "proposta", `Sua proposta para "${d.titulo}" foi aceita.`, "#/contratacoes/" + c.id);
-  fecharModal();
-  toast("Contratação criada. Combine os detalhes pela conversa.", "ok");
-  Nav.ir("#/contratacoes/" + c.id);
-}
-/* RN06: transições permitidas e quem pode executá-las */
-function wfMudarStatus(cid, para) {
-  const c = DB.obter("contratacao", cid);
-  const pu = Q.usuarioDoPerfil(c.perfil_profissional_id);
-  const souProf = pu.id === Sessao.usuarioId;
-  const permitido = {
-    em_andamento: c.status === "aguardando_inicio" && souProf,
-    entregue: c.status === "em_andamento" && souProf,
-    concluida: c.status === "entregue" && !souProf,
-    cancelada: ["aguardando_inicio", "em_andamento"].includes(c.status)
-  }[para];
-  if (!permitido) { toast("Esta mudança de status não é permitida agora.", "erro"); return atualizar(); }
-  const campos = { status: para, historico: [...(c.historico || []), { status: para, autor_id: Sessao.usuarioId, data: agora() }] };
-  if (para === "em_andamento") campos.data_inicio = agora().slice(0, 10);
-  if (para === "concluida") campos.data_conclusao = agora().slice(0, 10);
-  DB.atualizar("contratacao", c.id, campos);
-  const destino = souProf ? c.contratante_id : pu.id;
-  notificar(destino, "mudanca_status", `"${Q.demandaDaContratacao(c)?.titulo}" mudou para ${opcao("status_contratacao", para)}.`, "#/contratacoes/" + c.id);
-  fecharModal();
-  toast(`Status atualizado: ${opcao("status_contratacao", para)}.`, "ok");
-  atualizar();
-}
 function confirmar(titulo, texto, rotulo, act, id, extra = "") {
-  abrirModal(titulo, `<p>${texto}</p><div class="modal-rodape"><button class="btn btn-contorno" data-act="fechar-modal">Voltar</button><button class="btn ${act.includes("cancel") || act.includes("recusar") || extra === "cancelada" ? "btn-perigo" : "btn-primario"}" data-act="${act}" data-id="${id}" data-para="${extra}" data-confirmado="1">${rotulo}</button></div>`);
+  const perigo = act.includes("cancel") || act.includes("recusar") || extra === "cancelada";
+  abrirModal(titulo, `<p>${texto}</p><div class="modal-rodape"><button class="btn btn-contorno" data-act="fechar-modal">Voltar</button><button class="btn ${perigo ? "btn-perigo" : "btn-primario"}" data-act="${act}" data-id="${id}" data-para="${extra}" data-confirmado="1">${rotulo}</button></div>`);
 }
 
 const ACOES = {
   "menu"(el) { const n = $("#nav"); n.classList.toggle("aberto"); el.setAttribute("aria-expanded", n.classList.contains("aberto")); },
   "painel-notif"() { painelAberto = painelAberto === "notif" ? null : "notif"; renderHeader(Nav.caminho()); },
   "painel-conta"() { painelAberto = painelAberto === "conta" ? null : "conta"; renderHeader(Nav.caminho()); },
-  "abrir-notif"(el) { const n = DB.atualizar("notificacao", el.dataset.id, { lida: true }); painelAberto = null; if (Nav.atual() === n.link) atualizar(); else Nav.ir(n.link); },
-  "notif-todas"() { Q.notificacoesDo(Sessao.usuarioId).forEach(n => { n.lida = true; }); DB.salvar(); painelAberto = "notif"; renderHeader(Nav.caminho()); },
-  "sair"() { Sessao.sair(); toast("Você saiu da conta."); Nav.ir("#/"); },
-  "login-demo"(el) { wfEntrar(DB.obter("usuario", el.dataset.id)); },
+  "abrir-notif"(el) {
+    const n = DB.obter("notificacao", el.dataset.id);
+    painelAberto = null;
+    if (!n.lida) acao("notificacao.lida", { id: n.id }).then(() => renderHeader(Nav.caminho())).catch(() => {});
+    if (Nav.atual() === n.link) atualizar(); else Nav.ir(n.link);
+  },
+  async "notif-todas"() { await acao("notificacao.todas"); painelAberto = "notif"; renderHeader(Nav.caminho()); },
+  async "sair"() { await api("sair", {}).catch(() => {}); await Sync.forcar(); toast("Você saiu da conta."); Nav.ir("#/"); },
+  async "login-demo"(el) { await wfEntrar(el.dataset.email, "demo1234"); },
   "termos"() { abrirModal("Termos de uso", `<p>Versão acadêmica do Trabalink. Os dados informados são usados apenas para operar a plataforma: cadastro, busca, propostas, contratações e avaliações. Você pode atualizar seus dados a qualquer momento e solicitar a exclusão da conta.</p><div class="modal-rodape"><button class="btn btn-primario" data-act="fechar-modal">Entendi</button></div>`); },
-  "fechar-modal"() { fecharModal(); },
+  "fechar-modal"() { fecharModal(); if (atualizacaoPendente) atualizarSeOcioso(); },
   "limpar-filtros"() { Object.assign(filtrosBusca, { termo: "", local: "", categoria: "", preco: "", nota: "", disponibilidade: "", ordem: "relevancia" }); atualizar(); },
-  "cancelar-demanda"(el) {
+  async "cancelar-demanda"(el) {
     if (!el.dataset.confirmado) return confirmar("Cancelar demanda", "A demanda deixa de receber propostas e as propostas pendentes serão recusadas.", "Cancelar demanda", "cancelar-demanda", el.dataset.id);
-    const d = DB.obter("demanda", el.dataset.id);
-    if (d.status !== "aberta") { fecharModal(); return toast("A demanda não está mais aberta.", "erro"); }
-    DB.atualizar("demanda", d.id, { status: "cancelada" });
-    Q.propostasDaDemanda(d.id).filter(r => ["enviada", "visualizada"].includes(r.status)).forEach(r => {
-      DB.atualizar("proposta", r.id, { status: "recusada" });
-      notificar(Q.usuarioDoPerfil(r.perfil_profissional_id)?.id, "mudanca_status", `A demanda "${d.titulo}" foi cancelada pelo contratante.`, "#/propostas");
-    });
+    await acao("demanda.cancelar", { id: el.dataset.id });
     fecharModal(); toast("Demanda cancelada."); atualizar();
   },
-  "aceitar-proposta"(el) {
-    if (!el.dataset.confirmado) { const r = DB.obter("proposta", el.dataset.id); return confirmar("Aceitar proposta", `Aceitar a proposta de <strong>${esc(Q.usuarioDoPerfil(r.perfil_profissional_id)?.nome)}</strong> por <strong>${brl(r.valor)}</strong>? As demais propostas desta demanda serão recusadas.`, "Aceitar e contratar", "aceitar-proposta", r.id); }
-    wfAceitarProposta(el.dataset.id);
+  async "aceitar-proposta"(el) {
+    if (!el.dataset.confirmado) {
+      const r = DB.obter("proposta", el.dataset.id);
+      return confirmar("Aceitar proposta", `Aceitar a proposta de <strong>${esc(Q.usuarioDoPerfil(r.perfil_profissional_id)?.nome)}</strong> por <strong>${brl(r.valor)}</strong>? As demais propostas desta demanda serão recusadas.`, "Aceitar e contratar", "aceitar-proposta", r.id);
+    }
+    const r = await acao("proposta.aceitar", { id: el.dataset.id });
+    fecharModal();
+    toast("Contratação criada. Combine os detalhes pela conversa.", "ok");
+    Nav.ir("#/contratacoes/" + r.id);
   },
-  "recusar-proposta"(el) {
-    const r = DB.obter("proposta", el.dataset.id);
-    const d = DB.obter("demanda", r.demanda_id);
-    if (d.contratante_id !== Sessao.usuarioId || !["enviada", "visualizada"].includes(r.status)) return atualizar();
-    DB.atualizar("proposta", r.id, { status: "recusada" });
-    notificar(Q.usuarioDoPerfil(r.perfil_profissional_id)?.id, "proposta", `Sua proposta para "${d.titulo}" foi recusada.`, "#/propostas");
-    toast("Proposta recusada."); atualizar();
-  },
-  "cancelar-proposta"(el) {
+  async "recusar-proposta"(el) { await acao("proposta.recusar", { id: el.dataset.id }); toast("Proposta recusada."); atualizar(); },
+  async "cancelar-proposta"(el) {
     if (!el.dataset.confirmado) return confirmar("Cancelar proposta", "O contratante não verá mais esta proposta.", "Cancelar proposta", "cancelar-proposta", el.dataset.id);
-    const r = DB.obter("proposta", el.dataset.id);
-    if (!["enviada", "visualizada"].includes(r.status)) { fecharModal(); return toast("A proposta não pode mais ser cancelada.", "erro"); }
-    DB.atualizar("proposta", r.id, { status: "cancelada" });
+    await acao("proposta.cancelar", { id: el.dataset.id });
     fecharModal(); toast("Proposta cancelada."); atualizar();
   },
-  "status"(el) {
+  async "status"(el) {
     const para = el.dataset.para;
     if (!el.dataset.confirmado) {
       const textos = { em_andamento: "Confirmar o início do serviço?", entregue: "Confirmar que o serviço foi entregue? O contratante será avisado para confirmar a conclusão.", concluida: "Confirmar que o serviço foi concluído? Depois disso, as duas partes podem avaliar.", cancelada: "Cancelar esta contratação? Essa ação não pode ser desfeita." };
       return confirmar("Atualizar status", textos[para], para === "cancelada" ? "Cancelar contratação" : "Confirmar", "status", el.dataset.id, para);
     }
-    wfMudarStatus(el.dataset.id, para);
+    await acao("contratacao.status", { id: el.dataset.id, para });
+    fecharModal(); toast(`Status atualizado: ${opcao("status_contratacao", para)}.`, "ok"); atualizar();
   },
   "avaliar"(el) {
     const c = DB.obter("contratacao", el.dataset.id);
@@ -1864,50 +1180,42 @@ const ACOES = {
       <p class="pequeno suave">A avaliação é única e ficará visível no perfil (RN07).</p>
       <div class="modal-rodape"><button type="button" class="btn btn-contorno" data-act="fechar-modal">Cancelar</button><button class="btn btn-primario" type="submit">Publicar avaliação</button></div></form>`);
   },
-  "salvar-perfil"() { wfSalvarPerfil(); },
-  "secao"(el, e) { e.preventDefault(); secaoPerfil = el.dataset.sec; document.querySelectorAll(".menu-lateral a").forEach(a => a.classList.toggle("ativo", a === el)); const alvo = $("#sec-" + secaoPerfil); if (alvo) window.scrollTo({ top: alvo.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" }); },
-  "adicionar-hab"() {
+  async "salvar-perfil"() { await wfSalvarPerfil(); },
+  "secao"(el, e) {
+    e.preventDefault();
+    secaoPerfil = el.dataset.sec;
+    document.querySelectorAll(".menu-lateral a").forEach(a => a.classList.toggle("ativo", a === el));
+    const alvo = $("#sec-" + secaoPerfil);
+    if (alvo) window.scrollTo({ top: alvo.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" });
+  },
+  async "adicionar-hab"() {
     const input = $("#nova-hab"); const nome = input.value.trim(); if (!nome) return input.focus();
-    const p = Q.perfilDoUsuario(Sessao.usuarioId);
-    let h = DB.filtrar("habilidade", x => x.nome.toLowerCase() === nome.toLowerCase())[0];
-    if (!h) h = DB.inserir("habilidade", { nome, descricao: "" });
-    if (DB.filtrar("profissional_habilidade", x => x.perfil_profissional_id === p.id && x.habilidade_id === h.id).length) return toast("Habilidade já adicionada.");
     guardarRascunhoPerfil();
-    DB.inserir("profissional_habilidade", { perfil_profissional_id: p.id, habilidade_id: h.id, nivel_experiencia: "intermediario" });
+    await acao("habilidade.adicionar", { nome });
     atualizarMantendoRascunho(); const i = $("#nova-hab"); if (i) i.focus();
   },
-  "remover-hab"(el) {
-    const p = Q.perfilDoUsuario(Sessao.usuarioId);
-    const ph = DB.filtrar("profissional_habilidade", x => x.perfil_profissional_id === p.id && x.habilidade_id === el.dataset.id)[0];
-    guardarRascunhoPerfil();
-    if (ph) DB.remover("profissional_habilidade", ph.id);
-    atualizarMantendoRascunho();
-  },
-  "novo-servico"() { abrirModal("Novo serviço", formServico()); },
-  "editar-servico"(el) { abrirModal("Editar serviço", formServico(DB.obter("servico", el.dataset.id))); },
-  "remover-servico"(el) { DB.remover("servico", el.dataset.id); fecharModal(); toast("Serviço removido."); atualizar(); },
-  "ativar-servico"(el) {
+  async "remover-hab"(el) { guardarRascunhoPerfil(); await acao("habilidade.remover", { habilidade_id: el.dataset.id }); atualizarMantendoRascunho(); },
+  "novo-servico"() { guardarRascunhoPerfil(); abrirModal("Novo serviço", formServico()); },
+  "editar-servico"(el) { guardarRascunhoPerfil(); abrirModal("Editar serviço", formServico(DB.obter("servico", el.dataset.id))); },
+  async "remover-servico"(el) { await acao("servico.remover", { id: el.dataset.id }); fecharModal(); toast("Serviço removido."); atualizarMantendoRascunho(); },
+  async "ativar-servico"(el) {
     const ativo = el.checked;
-    if (ativo && !perfilMinimo(Q.perfilDoUsuario(Sessao.usuarioId))) { el.checked = false; return toast("Complete os dados profissionais antes de ativar serviços (RN02).", "erro"); }
     guardarRascunhoPerfil();
-    DB.atualizar("servico", el.dataset.id, { ativo });
+    try { await acao("servico.ativar", { id: el.dataset.id, ativo }); }
+    catch (e) { el.checked = !ativo; throw e; }
     toast(ativo ? "Serviço ativado." : "Serviço desativado."); atualizarMantendoRascunho();
   },
-  "novo-item"() { abrirModal("Adicionar item ao portfólio", formItem()); },
-  "editar-item"(el) { abrirModal("Editar item do portfólio", formItem(DB.obter("portfolio", el.dataset.id))); },
-  "remover-item"(el) {
-    if (!el.dataset.confirmado) return confirmar("Remover item", "O item deixará de aparecer no perfil público.", "Remover", "remover-item", el.dataset.id, "cancelada");
-    DB.remover("portfolio", el.dataset.id); fecharModal(); toast("Item removido."); atualizar();
+  "novo-item"() { guardarRascunhoPerfil(); abrirModal("Adicionar item ao portfólio", formItem()); },
+  "editar-item"(el) { guardarRascunhoPerfil(); abrirModal("Editar item do portfólio", formItem(DB.obter("portfolio", el.dataset.id))); },
+  async "remover-item"(el) {
+    if (!el.dataset.confirmado) { guardarRascunhoPerfil(); return confirmar("Remover item", "O item deixará de aparecer no perfil público.", "Remover", "remover-item", el.dataset.id, "cancelada"); }
+    await acao("portfolio.remover", { id: el.dataset.id }); fecharModal(); toast("Item removido."); atualizarMantendoRascunho();
   },
-  "excluir-conta"() { abrirModal("Solicitar exclusão", `<p>Na versão implantada, a solicitação gera o procedimento de exclusão ou anonimização dos dados (RNF06). Nesta demonstração nenhum dado é apagado.</p><div class="modal-rodape"><button class="btn btn-primario" data-act="fechar-modal">Entendi</button></div>`); },
-  "restaurar"(el) {
-    if (!el.dataset.confirmado) return confirmar("Restaurar dados", "Todas as alterações feitas neste navegador serão apagadas e os dados de demonstração voltam ao estado inicial.", "Restaurar", "restaurar", "", "cancelada");
-    DB.restaurar(); Sessao.sair(); fecharModal(); toast("Dados de demonstração restaurados.", "ok"); Nav.ir("#/");
-  },
+  "excluir-conta"() { abrirModal("Solicitar exclusão", `<p>A solicitação inicia o procedimento de exclusão ou anonimização dos dados (RNF06). Nesta versão acadêmica, o pedido é tratado manualmente pela equipe.</p><div class="modal-rodape"><button class="btn btn-primario" data-act="fechar-modal">Entendi</button></div>`); },
   "estrutura"(el) { document.body.classList.toggle("mostrar-bb"); el.setAttribute("aria-pressed", document.body.classList.contains("mostrar-bb")); }
 };
 
-/* Mantém o que foi digitado em WF-08 ao adicionar habilidade ou ativar serviço */
+/* Mantém o que foi digitado em WF-08 ao adicionar habilidade, salvar serviço etc. */
 let rascunhoPerfil = null;
 function guardarRascunhoPerfil() { const f = $("[data-form=perfil]"); rascunhoPerfil = f ? lerForm(f) : null; }
 function atualizarMantendoRascunho() {
@@ -1918,37 +1226,67 @@ function atualizarMantendoRascunho() {
 }
 
 /* ---------- Delegação de eventos ---------- */
+let ocupado = false; // evita clique duplo enquanto a API responde
+async function executar(fn, el) {
+  if (ocupado) return;
+  ocupado = true;
+  const botao = el && (el.tagName === "BUTTON" ? el : el.querySelector ? el.querySelector("button[type=submit]") : null);
+  if (botao) { botao.disabled = true; botao.setAttribute("aria-busy", "true"); }
+  try { await fn(); }
+  catch (e) { erroApi(e); }
+  finally {
+    ocupado = false;
+    if (botao && botao.isConnected) { botao.disabled = false; botao.removeAttribute("aria-busy"); }
+  }
+}
 document.addEventListener("click", e => {
   const el = e.target.closest("[data-act]");
   if (el && ACOES[el.dataset.act]) {
     if (el.tagName === "A" || el.tagName === "BUTTON") e.preventDefault();
     if (el.type === "checkbox") return; // tratado no change
-    return ACOES[el.dataset.act](el, e);
+    return executar(() => ACOES[el.dataset.act](el, e), el);
   }
   const link = e.target.closest('a[href^="#/"]');
-  if (link) { e.preventDefault(); painelAberto = null; const n = $("#nav"); if (n) n.classList.remove("aberto"); return Nav.ir(link.getAttribute("href")); }
+  if (link) {
+    e.preventDefault();
+    painelAberto = null;
+    const n = $("#nav"); if (n) n.classList.remove("aberto");
+    return Nav.ir(link.getAttribute("href"));
+  }
   if (painelAberto && !e.target.closest(".dropdown")) { painelAberto = null; renderHeader(Nav.caminho()); }
 });
 document.addEventListener("change", e => {
   const el = e.target;
-  if (el.matches("[data-act=ativar-servico]")) return ACOES["ativar-servico"](el);
+  if (el.matches("[data-act=ativar-servico]")) return executar(() => ACOES["ativar-servico"](el));
   if (el.matches("[data-filtro]")) { filtrosBusca[el.name] = el.value; return atualizar(); }
   if (el.matches("[data-filtro-op]")) { filtrosOp[el.dataset.filtroOp] = el.type === "checkbox" ? el.checked : el.value; return atualizar(); }
 });
-document.addEventListener("input", e => { const c = e.target.closest(".campo.invalido"); if (c) c.classList.remove("invalido"); });
+document.addEventListener("input", e => {
+  if (e.target.matches("[data-cep]")) return aoDigitarCep(e.target);
+  const c = e.target.closest(".campo.invalido"); if (c) c.classList.remove("invalido");
+});
 document.addEventListener("submit", e => {
   const form = e.target.closest("[data-form]");
   if (!form || !FORMS[form.dataset.form]) return;
   e.preventDefault();
-  FORMS[form.dataset.form](form);
+  executar(() => FORMS[form.dataset.form](form), form);
 });
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") { if ($("#modal")) fecharModal(); else if (painelAberto) { painelAberto = null; renderHeader(Nav.caminho()); } }
+  if (e.key === "Escape") { if ($("#modal")) ACOES["fechar-modal"](); else if (painelAberto) { painelAberto = null; renderHeader(Nav.caminho()); } }
 });
 window.addEventListener("hashchange", sincronizarRota);
 window.addEventListener("popstate", sincronizarRota);
-render();
 
-</script>
-
-</body></html>
+/* ---------- Início: carrega os dados do servidor e começa a sincronizar ---------- */
+(async function iniciar() {
+  $("#app").innerHTML = `<main class="pagina"><div class="cartao">${vazio("⏳", "Carregando o Trabalink…", "Conectando ao servidor.")}</div></main>`;
+  try {
+    await Sync.forcar();
+  } catch (e) {
+    $("#app").innerHTML = telaMensagem("Não foi possível conectar", e.message, `<button class="btn btn-primario" data-act="recarregar">Tentar de novo</button>`);
+    return;
+  }
+  render();
+  Sync.iniciar(atualizarSeOcioso);
+})();
+ACOES["recarregar"] = () => location.reload();
